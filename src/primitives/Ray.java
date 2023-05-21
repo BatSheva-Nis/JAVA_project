@@ -75,7 +75,7 @@ public class Ray {
 	 */
 	public Point findClosestPoint(List<Point> lst)
 	{
-		if(lst == null)
+		if(lst.equals(null))
 			return null;
 		Point p = null;
 		double min = 0;

@@ -12,6 +12,9 @@ import scene.*;
  *
  */
 public abstract class RayTracerBase {
+	/***
+	 * 3D model of a scene
+	 */
 	final protected Scene sn;
 
 	/**

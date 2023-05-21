@@ -15,7 +15,7 @@ public class Scene {
 
    public String name;
    public Color background = Color.BLACK;
-   public AmbientLight ambientLight = AmbientLight.NONE;
+   public AmbientLight ambient = AmbientLight.NONE;
    public Geometries geometries =new Geometries();
    
    /**
@@ -41,7 +41,7 @@ public Scene setBackground(Color background) {
  * @param ambientLight the ambientLight to set
  */
 public Scene setAmbientLight(AmbientLight ambientLight) {
-	this.ambientLight = ambientLight;
+	this.ambient = ambientLight;
 	return this;
 }
 

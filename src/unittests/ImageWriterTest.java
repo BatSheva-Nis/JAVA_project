@@ -20,8 +20,6 @@ class ImageWriterTest {
 	@Test
 	void testImageWriter() {
 		
-		
-		
 		ImageWriter im;
 		im =new ImageWriter("my picture",801,501);
 		

@@ -20,9 +20,9 @@ public class RenderTests {
    @Test
    public void basicRenderTwoColorTest() {
       Scene scene = new Scene("Test scene")//
-         .setAmbientLight(new AmbientLight(new Color(255, 191, 191), //
+         .setAmbientLight(new AmbientLight(new Color(255, 191, 191), //Background color of the shapes
                                            new Double3(1, 1, 1))) //
-         .setBackground(new Color(75, 127, 90));
+         .setBackground(new Color(75, 127, 90));//the background color
 
       scene.geometries.add(new Sphere(new Point(0, 0, -100), 50d),
                            new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up

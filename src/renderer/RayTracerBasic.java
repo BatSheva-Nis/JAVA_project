@@ -5,6 +5,7 @@ package renderer;
 import primitives.*;
 import geometries.*;
 import scene.*;
+import java.util.*;
 
 /**
  * The RayTracerBasic class that inherits from the abstract class RayTracerBase
@@ -27,7 +28,15 @@ public class RayTracerBasic extends RayTracerBase{
 	 */
 	public Color traceRay(Ray ray)
 	{
-		return null;
+		List<Point> intersections = sn.geometries.findIntersections(ray);
+		if(intersections == null)
+			return sn.background;
+		Point closestPoint = ray.findClosestPoint(intersections);
+		return calcColor(closestPoint);
+	}
+	
+	private Color calcColor(Point point) {
+		return sn.ambient.getIntensity();
 	}
 
 }

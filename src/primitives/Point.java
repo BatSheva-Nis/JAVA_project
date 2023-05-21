@@ -14,6 +14,7 @@ public class Point{
      * 3 coordinates of the Point
      **/
 	final protected Double3 xyz;
+	public static final Point ZERO = new Point(0d, 0d, 0d);
 
     /**
      * constructor to initialize the Point object with 3 given coordinates

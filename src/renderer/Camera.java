@@ -2,10 +2,11 @@
  * 
  */
 package renderer;
+import java.util.MissingResourceException;
+
 import geometries.*;
 import primitives.*;
 import scene.*;
-
 
 
 /**
@@ -18,9 +19,9 @@ public class Camera {
 	private Vector vTo;
 	private Vector vUp;
 	private Vector vRight;
-	private double height;
-	private double width;
-	private double distance;
+	private double height = 0;
+	private double width = 0;
+	private double distance = 0;
 	
 	private ImageWriter im;
 	private RayTracerBase rtb;
@@ -49,8 +50,8 @@ public class Camera {
 	 */
 	public Camera setVPSize(double width, double height)
 	{
-		this.height =height;
-		this.width =width;
+		this.height = height;
+		this.width = width;
 		return this;
 	}
 	
@@ -71,7 +72,7 @@ public class Camera {
 	 * @param height double
 	 * @returns the camera
 	 */
-	public Camera setIm(ImageWriter im)
+	public Camera setImageWriter(ImageWriter im)
 	{
 		this.im = im;
 		return this;
@@ -83,7 +84,7 @@ public class Camera {
 	 * @param height double
 	 * @returns the camera
 	 */
-	public Camera setRtb(RayTracerBase rtb)
+	public Camera setRayTracer(RayTracerBase rtb)
 	{
 		this.rtb = rtb;
 		return this;
@@ -126,10 +127,51 @@ public class Camera {
 	public void renderImage()
 	{
 		
-	}
-	public void printGr(int interval, Color color)
-	{
+		if (location == null || vTo == null || vUp == null || vRight == null || height == 0 || width == 0 || distance == 0 || im== null || rtb == null)
+			throw new MissingResourceException("ERROR", null, null);
+		//throw new UnsupportedOperationException();
+		for(int i=0 ; i < im.getNy() ; i++)
+			for(int j=0 ; j < im.getNx() ; j++)
+			{
+				Color color = castRay((int) width, (int)width,i ,j);
+				im.writePixel(j, i, color);
+			}
+				
 		
 	}
+	
+	 public Color castRay(int nX ,int nY,int j ,int i)
+	 {
+		 Ray ray = constructRay(nX, nY, i, j);
+		 Color c = rtb.traceRay(ray);
+		 return c;
+		 
+	 }
+	
+	public void printGrid(int interval, Color color)
+	{
+		if(im == null)
+			throw new MissingResourceException("ERROR", null, null);
+		//pixels
+		//columns
+		//Interval is the length of each pixel
+		for(int i=0; i< im.getNx(); i+=interval)
+			for(int j=0; j< im.getNy(); j++)
+				im.writePixel(i, j, color);
+		//rows
+		//Interval is the length of each pixel
+		for(int i=0; i< im.getNy(); i+=interval)
+			for(int j=0; j< im.getNx(); j++)
+				im.writePixel(j, i, color);
+		im.writeToImage();
+	}
+	
+	public void writeToImage()
+	{
+		if(im == null)
+			throw new MissingResourceException("ERROR", null, null);
+		im.writeToImage();
+	}
+	
 
 }
