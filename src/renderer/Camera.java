@@ -19,9 +19,9 @@ public class Camera {
 	private Vector vTo;
 	private Vector vUp;
 	private Vector vRight;
-	private double height = 0;
-	private double width = 0;
-	private double distance = 0;
+	private double height;
+	private double width;
+	private double distance;
 	
 	private ImageWriter im;
 	private RayTracerBase rtb;
@@ -126,18 +126,22 @@ public class Camera {
 	
 	public void renderImage()
 	{
-		
-		if (location == null || vTo == null || vUp == null || vRight == null || height == 0 || width == 0 || distance == 0 || im== null || rtb == null)
-			throw new MissingResourceException("ERROR", null, null);
+		if (vTo == null || vUp == null || vRight == null)
+			throw new MissingResourceException("ERROR: missing resource", Vector.class.getName(), "");
+		if (location == null)
+			throw new MissingResourceException("ERROR: missing resource", Point.class.getName(), "");
+		if (im== null)
+			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
+		if (rtb == null)
+			throw new MissingResourceException("ERROR: missing resource", RayTracerBase.class.getName(), "");
 		//throw new UnsupportedOperationException();
+		//iterator over the pixels in the image
 		for(int i=0 ; i < im.getNy() ; i++)
 			for(int j=0 ; j < im.getNx() ; j++)
 			{
-				Color color = castRay((int) width, (int)width,i ,j);
+				Color color = castRay(im.getNx(), im.getNy(),i ,j);
 				im.writePixel(j, i, color);
-			}
-				
-		
+			}	
 	}
 	
 	 public Color castRay(int nX ,int nY,int j ,int i)

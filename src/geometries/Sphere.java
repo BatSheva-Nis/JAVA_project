@@ -1,6 +1,6 @@
 package geometries;
 
-import static primitives.Util.alignZero;
+import static primitives.Util.*;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class Sphere extends RadialGeometry {
 		 //  p1 =p0.add(v.scale(t1)); //refactoring
 		   p1 =ray.getPoint(t1);
 		   double len =p1.subtract(center).lengthSquared();
-		   if(alignZero(len - radius*radius)== 0)
+		   if(isZero(alignZero(len - radius*radius)))
 			   flag1 =true;
 		   if(p1.equals(p0))//makes sure not at the begining of the ray
 			   flag1 = false;
@@ -80,7 +80,7 @@ public class Sphere extends RadialGeometry {
 		    //p2 =p0.add(v.scale(t2)); //refactoring
 		    p2 = ray.getPoint(t2);
 		    double len =p2.subtract(center).lengthSquared();
-			if(alignZero(len - radius*radius)== 0)
+			if(isZero(alignZero(len - radius*radius)))
 			    flag2 =true;
 		    if(p2.equals(p0))//makes sure not at the begining of the ray
 			   flag2 = false;

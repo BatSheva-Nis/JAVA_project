@@ -49,7 +49,7 @@ public class Triangle extends Polygon {
 		Vector n2 = v2.crossProduct(v3);
 		Vector n3 = v3.crossProduct(v1);
 		
-		boolean flag =false;
+		boolean flag = false;
 		if((v.dotProduct(n1)> 0 && v.dotProduct(n2) > 0 && v.dotProduct(n3)>0)||(v.dotProduct(n1)< 0 && v.dotProduct(n2) < 0 && v.dotProduct(n3)<0))//checks that they have the same sign (+/-)
 			flag =true;
 		
