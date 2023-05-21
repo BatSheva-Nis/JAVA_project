@@ -1,6 +1,8 @@
 package primitives;
 
 import java.util.Objects;
+import java.util.*;
+
 
 
 /**
@@ -65,6 +67,31 @@ public class Ray {
 	{
 		return p0.add(dir.scale(t));
 	}
+	
+	/***
+	 * Finds the point closest to the beginning of the ray by finding the minimum distance between a point from the list and the top of the ray
+	 * @param lst
+	 * @returns the point closest to the top of the ray
+	 */
+	public Point findClosestPoint(List<Point> lst)
+	{
+		if(lst == null)
+			return null;
+		Point p = null;
+		double min = 0;
+		for (Point temp: lst)
+		{
+			double tempMin = p0.distance(temp);
+			if (tempMin > min)
+			{
+				min  = tempMin;
+				p = temp;
+			}
+		}
+		return p;
+	}
+	
+	
 	
 	
 

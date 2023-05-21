@@ -2,7 +2,10 @@
  * 
  */
 package renderer;
+import geometries.*;
 import primitives.*;
+import scene.*;
+
 
 
 /**
@@ -10,6 +13,7 @@ import primitives.*;
  *
  */
 public class Camera {
+	
 	private Point location;
 	private Vector vTo;
 	private Vector vUp;
@@ -17,6 +21,10 @@ public class Camera {
 	private double height;
 	private double width;
 	private double distance;
+	
+	private ImageWriter im;
+	private RayTracerBase rtb;
+	
 	/**
 	 * ctor that gets:
 	 * @param location a point where the camra is
@@ -32,6 +40,7 @@ public class Camera {
 		this.vUp = up.normalize();
 		this.vRight =to.crossProduct(up).normalize();
 	}
+	
 	/***
 	 * sets the size of the veiw plane
 	 * @param width double
@@ -44,6 +53,7 @@ public class Camera {
 		this.width =width;
 		return this;
 	}
+	
 	/***
 	 * sets the distance of the veiw plane from the camera
 	 * @param distance double
@@ -54,6 +64,31 @@ public class Camera {
 		this.distance =distance;
 		return this;
 	}
+	
+	/***
+	 * sets the object image writer
+	 * @param width double
+	 * @param height double
+	 * @returns the camera
+	 */
+	public Camera setIm(ImageWriter im)
+	{
+		this.im = im;
+		return this;
+	}
+	
+	/***
+	 * sets the object ray tracer base
+	 * @param width double
+	 * @param height double
+	 * @returns the camera
+	 */
+	public Camera setRtb(RayTracerBase rtb)
+	{
+		this.rtb = rtb;
+		return this;
+	}
+	
 	/***
 	 * 
 	 * @param nX amount of columns
@@ -88,6 +123,13 @@ public class Camera {
 		throw new IllegalArgumentException("ERROR: cant devide by 0");
 	}
 	
-	
+	public void renderImage()
+	{
+		
+	}
+	public void printGr(int interval, Color color)
+	{
+		
+	}
 
 }
