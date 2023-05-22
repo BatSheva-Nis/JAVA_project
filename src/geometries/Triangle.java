@@ -37,9 +37,9 @@ public class Triangle extends Polygon {
 		Point p0=ray.getP0();
 		Vector v = ray.getDir();
 		
-		Point p1=vertices.get(0);
-		Point p2=vertices.get(1);
-		Point p3=vertices.get(2);
+		Point p1 = vertices.get(0);
+		Point p2 = vertices.get(1);
+		Point p3 = vertices.get(2);
 		Vector v1 = p1.subtract(p0);
 		Vector v2 = p2.subtract(p0);
 		Vector v3 = p3.subtract(p0);
@@ -50,8 +50,8 @@ public class Triangle extends Polygon {
 		Vector n3 = v3.crossProduct(v1);
 		
 		boolean flag = false;
-		if((v.dotProduct(n1)> 0 && v.dotProduct(n2) > 0 && v.dotProduct(n3)>0)||(v.dotProduct(n1)< 0 && v.dotProduct(n2) < 0 && v.dotProduct(n3)<0))//checks that they have the same sign (+/-)
-			flag =true;
+		if((v.dotProduct(n1) > 0 && v.dotProduct(n2) > 0 && v.dotProduct(n3) > 0 )||(v.dotProduct(n1) < 0 && v.dotProduct(n2) < 0 && v.dotProduct(n3) < 0))//checks that they have the same sign (+/-)
+			flag = true;
 		
 		Plane p = new Plane(p1,p2,p3);
 		if(flag == true)

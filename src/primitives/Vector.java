@@ -1,4 +1,5 @@
 package primitives;
+import primitives.Util.*;
 
 
 /**
@@ -60,7 +61,7 @@ public class Vector extends Point {
      * @return result of multiplication
      */
     public double dotProduct(Vector vector2) {
-        return this.xyz.d1 * vector2.xyz.d1 + this.xyz.d2 * vector2.xyz.d2 + this.xyz.d3 * vector2.xyz.d3;
+        return Util.alignZero(this.xyz.d1 * vector2.xyz.d1 + this.xyz.d2 * vector2.xyz.d2 + this.xyz.d3 * vector2.xyz.d3);
     }
     
     
@@ -72,9 +73,9 @@ public class Vector extends Point {
      */
     public Vector crossProduct(Vector vector) {
         // calculates each coordinate of the result vector according to the determinant of the cross multiplication matrix
-        double coorI = this.xyz.d2 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d2;
-        double coorJ = this.xyz.d1 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d1;
-        double coorK = this.xyz.d1 * vector.xyz.d2 - this.xyz.d2 * vector.xyz.d1;
+        double coorI = Util.alignZero(this.xyz.d2 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d2);
+        double coorJ = Util.alignZero(this.xyz.d1 * vector.xyz.d3 - this.xyz.d3 * vector.xyz.d1);
+        double coorK = Util.alignZero(this.xyz.d1 * vector.xyz.d2 - this.xyz.d2 * vector.xyz.d1);
         return new Vector(coorI, coorJ * -1, coorK);
     }
     
@@ -85,7 +86,7 @@ public class Vector extends Point {
      * @return squared length
      */
     public double lengthSquared() {
-        return xyz.d1 * xyz.d1 + xyz.d2 * xyz.d2 + xyz.d3 * xyz.d3;
+        return Util.alignZero(xyz.d1 * xyz.d1 + xyz.d2 * xyz.d2 + xyz.d3 * xyz.d3);
     }
 
     
@@ -95,7 +96,7 @@ public class Vector extends Point {
      * @return length of vector
      */
     public double length() {
-        return Math.sqrt(this.lengthSquared());
+        return Util.alignZero(Math.sqrt(this.lengthSquared()));
     }
 
     /**

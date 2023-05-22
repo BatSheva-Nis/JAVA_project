@@ -101,7 +101,7 @@ public class Plane implements Geometry {
         if(isZero(alignZero(t)))
            return null;
         
-    	t= alignZero(t)/check;
+    	t=t/check;
     	
     	//p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
     	Point p= ray.getPoint(t);

@@ -1,6 +1,8 @@
 package primitives;
 
 import java.util.Objects;
+import primitives.Util.*;
+
 
 
 /**
@@ -63,7 +65,7 @@ public class Point{
      * @return squared distance
      */
     public double distanceSquared(Point point) {
-        return (this.xyz.d1 - point.xyz.d1) * (this.xyz.d1 - point.xyz.d1) + (this.xyz.d2 - point.xyz.d2) * (this.xyz.d2 - point.xyz.d2) + (this.xyz.d3 - point.xyz.d3) * (this.xyz.d3 - point.xyz.d3);	
+        return  Util.alignZero((this.xyz.d1 - point.xyz.d1) * (this.xyz.d1 - point.xyz.d1) + (this.xyz.d2 - point.xyz.d2) * (this.xyz.d2 - point.xyz.d2) + (this.xyz.d3 - point.xyz.d3) * (this.xyz.d3 - point.xyz.d3));	
 	}
     
     
@@ -73,7 +75,7 @@ public class Point{
      * @return distance
      */
     public double distance(Point point) {
-        return Math.sqrt(this.distanceSquared(point));
+        return Util.alignZero(Math.sqrt(this.distanceSquared(point)));
     }
 
 	/**
@@ -82,7 +84,7 @@ public class Point{
 	 */
 	public double getX() {
 		
-		return xyz.d1;
+		return Util.alignZero(xyz.d1);
 	}
 	/**
 	 * returns y

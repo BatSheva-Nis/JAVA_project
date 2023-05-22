@@ -10,20 +10,27 @@ import scene.*;
 
 
 /**
+ * Camera class The representation of the camera in relation to the view plan
  * @author Rachelli Adler Yael Kahana Batsheva Nissim
  *
  */
 public class Camera {
 	
+	//Camera location point
 	private Point location;
+	//direction vectors
 	private Vector vTo;
 	private Vector vUp;
 	private Vector vRight;
+	//The length and width of the view plan
 	private double height;
 	private double width;
+	//The camera distance from the view plan
 	private double distance;
 	
+	//field of ImageWriter
 	private ImageWriter im;
+	//field of RayTracerBase
 	private RayTracerBase rtb;
 	
 	/**
@@ -91,7 +98,7 @@ public class Camera {
 	}
 	
 	/***
-	 * 
+	 * Building a ray from the camera to the pixel we received for the view plane
 	 * @param nX amount of columns
 	 * @param nY amount of rows
 	 * @param j number column
@@ -106,6 +113,7 @@ public class Camera {
 			double ry =height/nY;
 			double rx =width/nX;
 			
+			//the center of the pixel
 			Point pIJ = location.add(vTo.scale(distance)); //middle of the view plane
 			
 			//the amount to move from the middle
@@ -120,10 +128,13 @@ public class Camera {
 			
 			Vector v = pIJ.subtract(location);
 			return new Ray(location, v);
-			}
+		}
 		throw new IllegalArgumentException("ERROR: cant devide by 0");
 	}
 	
+	/***
+	 * Calculating the color of a pixel in the image and coloring it
+	 */
 	public void renderImage()
 	{
 		if (vTo == null || vUp == null || vRight == null)
@@ -144,18 +155,34 @@ public class Camera {
 			}	
 	}
 	
+	/***
+	 * Calculating the color of the received pixel by creating a ray
+	 *  and finding the closest object and its color
+	 * @param nX
+	 * @param nY
+	 * @param j
+	 * @param i
+	 * @returns the color in which we will paint the pixel
+	 */
 	 public Color castRay(int nX ,int nY,int j ,int i)
 	 {
+		 //Creates a ray from the camera to the pixel
 		 Ray ray = constructRay(nX, nY, i, j);
+		 //Finding the color
 		 Color c = rtb.traceRay(ray);
 		 return c;
 		 
 	 }
 	
+	 /***
+	  * Coloring the pixels with the color we got, so that each pixel has a size of interval
+	  * @param interval
+	  * @param color
+	  */
 	public void printGrid(int interval, Color color)
 	{
 		if(im == null)
-			throw new MissingResourceException("ERROR", null, null);
+			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
 		//pixels
 		//columns
 		//Interval is the length of each pixel
@@ -167,13 +194,17 @@ public class Camera {
 		for(int i=0; i< im.getNy(); i+=interval)
 			for(int j=0; j< im.getNx(); j++)
 				im.writePixel(j, i, color);
-		im.writeToImage();
+		
+		writeToImage();
 	}
 	
+	/***
+	 * Writing the image to a png file
+	 */
 	public void writeToImage()
 	{
 		if(im == null)
-			throw new MissingResourceException("ERROR", null, null);
+			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
 		im.writeToImage();
 	}
 	
