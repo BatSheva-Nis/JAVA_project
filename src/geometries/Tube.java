@@ -5,6 +5,7 @@ import primitives.*;
 import java.util.List;
 
 import geometries.*;
+import geometries.Intersectable.GeoPoint;
 
 /**
  * Tube class represents three-dimensional Tube in 3D Cartesian coordinate
@@ -54,5 +55,9 @@ public class Tube extends RadialGeometry {
 		return null;
 	}
 
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

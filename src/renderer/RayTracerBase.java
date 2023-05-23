@@ -12,6 +12,7 @@ import scene.*;
  *
  */
 public abstract class RayTracerBase {
+	
 	/***
 	 * 3D model of a scene
 	 * 
@@ -27,6 +28,9 @@ public abstract class RayTracerBase {
 	}
 	
 	/***
+	 * Finds the list of intersection points of the ray with the scene 
+	 * and returns the color of the closest point, 
+	 * with this color we will color the pixel
 	 * Public abstract method traceRay that accepts a ray as a parameter and returns a color
 	 * @param ray
 	 * @returns the color

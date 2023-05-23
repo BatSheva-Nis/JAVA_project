@@ -16,7 +16,7 @@ public class Scene {
    public String name;
    public Color background = Color.BLACK;
    public AmbientLight ambient = AmbientLight.NONE;
-   public Geometries geometries =new Geometries();
+   public Geometries geometries = new Geometries();
    
    /**
     * ctor that sets just the name
@@ -28,29 +28,29 @@ public class Scene {
    }
 
 
-/**
- * @param background the background to set
- */
-public Scene setBackground(Color background) {
-	this.background = background;
-	return this;
-}
+   /**
+    * @param background the background to set
+    */
+   public Scene setBackground(Color background) {
+	   this.background = background;
+	   return this;
+   }
 
 
-/**
- * @param ambientLight the ambientLight to set
- */
-public Scene setAmbientLight(AmbientLight ambientLight) {
-	this.ambient = ambientLight;
-	return this;
-}
+   /**
+    * @param ambientLight the ambientLight to set
+    */
+   public Scene setAmbientLight(AmbientLight ambientLight) {
+	   this.ambient = ambientLight;
+	   return this;
+   }	
 
-/**
- * @param geometries the geometries to set
- */
-public Scene setGeometries(Geometries geometries) {
-	this.geometries = geometries;
-	return this;
-}
+   /**
+    * @param geometries the geometries to set
+    */
+   public Scene setGeometries(Geometries geometries) {
+	   this.geometries = geometries;
+	   return this;
+   }
    
 }

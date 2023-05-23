@@ -1,12 +1,17 @@
 package geometries;
 
+import java.util.List;
+
+//import geometries.Intersectable.GeoPoint;
+import primitives.Ray;
 
 /**
  * class RadialGeometry is the basic class representing all Euclidean geometry with radius in Cartesian 3-Dimensional coordinate system
  *
  * @author Rachelli Adler Yael Kahana Batsheva Nissim
  */
-public abstract class RadialGeometry implements Geometry {
+//???????????????????????????????????????????????
+public abstract class RadialGeometry extends Geometry {
 	
 
     /**
@@ -33,4 +38,8 @@ public abstract class RadialGeometry implements Geometry {
         return radius;
     }
 
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

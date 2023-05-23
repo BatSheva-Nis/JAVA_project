@@ -157,7 +157,7 @@ public class Camera {
 	
 	/***
 	 * Calculating the color of the received pixel by creating a ray
-	 *  and finding the closest object and its color
+	 * and finding the closest object and its color
 	 * @param nX
 	 * @param nY
 	 * @param j
@@ -175,7 +175,8 @@ public class Camera {
 	 }
 	
 	 /***
-	  * Coloring the pixels with the color we got, so that each pixel has a size of interval
+	  * Coloring the pixels with the color we got, 
+	  * so that each pixel has a size of interval
 	  * @param interval
 	  * @param color
 	  */
@@ -183,7 +184,7 @@ public class Camera {
 	{
 		if(im == null)
 			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
-		//pixels
+		//pixels:
 		//columns
 		//Interval is the length of each pixel
 		for(int i=0; i< im.getNx(); i+=interval)

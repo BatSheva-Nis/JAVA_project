@@ -2,6 +2,7 @@ package geometries;
 
 import java.util.*;
 
+import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -53,9 +54,8 @@ public class Triangle extends Polygon {
 		if((v.dotProduct(n1) > 0 && v.dotProduct(n2) > 0 && v.dotProduct(n3) > 0 )||(v.dotProduct(n1) < 0 && v.dotProduct(n2) < 0 && v.dotProduct(n3) < 0))//checks that they have the same sign (+/-)
 			flag = true;
 		
-		Plane p = new Plane(p1,p2,p3);
 		if(flag == true)
-		   return p.findIntersections(ray); //list of the intersections with the plane that the triangle is in	
+		   return plane.findIntersections(ray); //list of the intersections with the plane that the triangle is in	
 		return null;//if it hits the plane but not the triangle
 	}
 }

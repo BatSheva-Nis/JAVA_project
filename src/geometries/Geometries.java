@@ -3,7 +3,8 @@
  */
 package geometries;
 import java.util.*;
-import java.util.ArrayList;
+
+import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Ray;
 
@@ -12,7 +13,7 @@ import primitives.Ray;
  * @author Rachelli Adler Yael Kahana Batsheva Nissim
  * 
  */
-public class Geometries implements Intersectable {
+public class Geometries extends Intersectable {
 	private List<Intersectable> lst;
 	
 	/**
@@ -46,7 +47,7 @@ public class Geometries implements Intersectable {
 	 * the function checks if there are intersection between the ray and the composite
 	 *  and if yes returns a list with the intersection
 	 * @param ray
-	 * @returns list of inersection. no limit intersections
+	 * @returns list of intersection. no limit intersections
 	 */
 	@Override
 	public List<Point> findIntersections(Ray ray)
@@ -62,6 +63,11 @@ public class Geometries implements Intersectable {
 		if(big.size() >0)
 			return big;
 
+		return null;
+	}
+	
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -22,8 +22,9 @@ public class RayTracerBasic extends RayTracerBase{
 	}
 	
 	/***
-	 * Finds the color of the shape closest to the top of the ray
-	 * and returns the color to color the pixel from which the ray came
+	 * Finds the list of intersection points of the ray with the scene 
+	 * and returns the color of the closest point, 
+	 * with this color we will color the pixel
 	 * @param ray
 	 * @returns the color
 	 */
@@ -40,7 +41,7 @@ public class RayTracerBasic extends RayTracerBase{
 	}
 	
 	/***
-	 * Calculates the color of the dot
+	 * Calculates the color of the point
 	 * Helped by the ambient lighting of the scene object
 	 * @param point
 	 * @returns the color of the point he received

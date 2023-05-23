@@ -46,7 +46,7 @@ public class Sphere extends RadialGeometry {
 	 * the function checks if there are intersection between the ray and the sphere
 	 *  and if yes returns a list with the intersection
 	 * @param ray
-	 * @returns list of inersection. 1/0/2 intersections
+	 * @returns list of intersection. 1/0/2 intersections
 	 */
     @Override
 	public List<Point> findIntersections(Ray ray)

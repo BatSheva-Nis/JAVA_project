@@ -2,6 +2,9 @@ package geometries;
 import static primitives.Util.isZero;
 import primitives.*;
 import java.util.List;
+
+import geometries.Intersectable.GeoPoint;
+
 import static primitives.Util.*;
 
 
@@ -11,7 +14,7 @@ import static primitives.Util.*;
  *
  * @author Batsheva Nissim and Yael Kahana and Rachelli Adler
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
 	private final Point q0;
     private final Vector normal;
     
@@ -110,6 +113,11 @@ public class Plane implements Geometry {
     		return null;
     	return List.of(p);
     }
+    
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 
