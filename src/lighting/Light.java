@@ -2,18 +2,32 @@
  * 
  */
 package lighting;
+import primitives.*;
 
 /**
- * @author bat10
- *
+ * @author Rachelli Adler Yael Kahana Batsheva Nissim
+ * this class represents all the lights besides ambient light.
  */
-public abstract class Light {
+ abstract class Light {
 
+	 /**
+	  * the intensity of the light( what basic color)
+	  */
+	 private Color intensity;
+	 
 	/**
-	 * 
+	 * c-tor that gets a color
 	 */
-	public Light() {
-		// TODO Auto-generated constructor stub
+	protected Light(Color intensity) {
+		this.intensity =intensity;	
 	}
+	/**
+	 * @returns the intensity
+	 */
+	public Color getIntensity() {
+		return intensity;
+	}
+
+	
 
 }

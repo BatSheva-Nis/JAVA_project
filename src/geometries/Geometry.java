@@ -8,7 +8,15 @@ import primitives.*;
  */
 public abstract class Geometry extends Intersectable {
 
+	/**
+	 * the color emission default black
+	 */
 	protected Color emission = Color.BLACK;
+	
+	/**
+	 * the shapes material.(is it glass? is it a mirror?)
+	 */
+	private Material material =new Material();
 	
 	/**
 	 * getter emission.
@@ -35,10 +43,23 @@ public abstract class Geometry extends Intersectable {
      */
     public abstract Vector getNormal(Point point);
 
-	/***
-	 * the function checks if there are intersection between the ray and the plane
-	 *  and if yes returns a list with the intersection
-	 * @param ray
-	 * @returns list of intersection. 1/0 intersections
+	/**
+	 * @returns the material
 	 */
+	public Material getMaterial() {
+		return material;
+	}
+
+	/**
+	 * @param material the material to set
+	 * returns the geometry itself
+	 */
+	public Geometry setMaterial(Material material) {
+		this.material = material;
+		return this;
+	}
+
+
+
+	
 }
