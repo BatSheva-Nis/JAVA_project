@@ -91,7 +91,7 @@ public class Plane extends Geometry {
     @Override
     public List<Point> findIntersections(Ray ray)
     {
-          if(q0.equals(ray.getP0()))//if the ray starts on the plane
+         if(q0.equals(ray.getP0()))//if the ray starts on the plane
  	        	return null;
     
     	Vector v = q0.subtract(ray.getP0());//q0-p0 vector
@@ -114,9 +114,40 @@ public class Plane extends Geometry {
     	return List.of(p);
     }
     
+    
+    /**
+	 * 
+	 * @param ray
+	 * @returns The point and the shape the point is on
+	 */
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		// TODO Auto-generated method stub
-		return null;
+		
+//        if(q0.equals(ray.getP0()))//if the ray starts on the plane
+//	        	return null;
+//
+//        Vector v = q0.subtract(ray.getP0());//q0-p0 vector
+//        double t = normal.dotProduct(v);
+//        double check = normal.dotProduct(ray.getDir());
+//	
+//        if (isZero(alignZero(check)))
+//        	return null;//It means that the ray is parallel to the plane
+//    
+//        if(isZero(alignZero(t)))
+//        	return null;
+//    
+//        t=t/check;
+//	
+//        //p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
+//        Point p= ray.getPoint(t);
+//	
+//        if(t<=0)
+//		return null;
+//        return List.of(p);
+		List<Point> intersections = findIntersections(ray);
+		if(intersections == null)
+			return null;
+		Point point = intersections.get(0);
+		return List.of(new GeoPoint(this, point));
 	}
 }
 

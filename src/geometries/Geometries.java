@@ -7,6 +7,7 @@ import java.util.*;
 import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Ray;
+import scene.*;
 
 /**
  * class of several geometric bodies
@@ -67,8 +68,18 @@ public class Geometries extends Intersectable {
 	}
 	
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		// TODO Auto-generated method stub
-		return null;
+		List<GeoPoint> intersections = null;
+		for (Intersectable geometry : lst)
+		{
+			List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray);
+			if(geometryIntersections.size() != 0)
+			{
+				for(GeoPoint point: geometryIntersections)
+					intersections.add(point);
+			}	
+		}
+				
+		return intersections;
 	}
 	
 	

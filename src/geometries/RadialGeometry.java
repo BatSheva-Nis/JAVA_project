@@ -10,7 +10,6 @@ import primitives.Ray;
  *
  * @author Rachelli Adler Yael Kahana Batsheva Nissim
  */
-//???????????????????????????????????????????????
 public abstract class RadialGeometry extends Geometry {
 	
 
@@ -37,9 +36,4 @@ public abstract class RadialGeometry extends Geometry {
     public double getRadius() {
         return radius;
     }
-
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

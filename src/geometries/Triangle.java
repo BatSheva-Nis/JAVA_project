@@ -58,4 +58,26 @@ public class Triangle extends Polygon {
 		   return plane.findIntersections(ray); //list of the intersections with the plane that the triangle is in	
 		return null;//if it hits the plane but not the triangle
 	}
+	
+	/**
+	 * 
+	 * @param ray
+	 * @returns The point and the shape the point is on
+	 */
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		List<Point> intersections = findIntersections(ray);
+		if(intersections == null)
+			return null;
+		Point point = intersections.get(0);
+		return List.of(new GeoPoint(this, point));
+	}
+	
+//	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+//		var intersections = plane.findGeoIntersections(ray);
+//		Check the point is inside the shape according to
+//		appropriate algorithm and return null if it is not there
+//		Replace the geometry in the [single] intersection found
+//		for plane to this
+//		return intersections
+//		}
 }

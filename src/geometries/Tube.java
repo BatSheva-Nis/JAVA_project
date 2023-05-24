@@ -49,15 +49,23 @@ public class Tube extends RadialGeometry {
 	 * @param ray
 	 * @return the list of intersections
 	 */
-    @Override
-	public List<Point> findIntersections(Ray ray)
-	{
-		return null;
-	}
-
+//    @Override
+//	public List<Point> findIntersections(Ray ray)
+//	{
+//		return null;
+//	}
+    
+    /**
+	 * 
+	 * @param ray
+	 * @returns The point and the shape the point is on
+	 */
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		// TODO Auto-generated method stub
-		return null;
+		List<Point> intersections = findIntersections(ray);
+		if(intersections == null)
+			return null;
+		Point point = intersections.get(0);
+		return List.of(new GeoPoint(this, point));
 	}
 
 }

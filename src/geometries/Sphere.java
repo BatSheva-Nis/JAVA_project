@@ -4,6 +4,7 @@ import static primitives.Util.*;
 
 import java.util.List;
 
+import geometries.Intersectable.GeoPoint;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -66,12 +67,13 @@ public class Sphere extends RadialGeometry {
 	   boolean flag1 =false,flag2 =false;
 	   if(t1>0)//If the direction is negative, the point is outside the sphere
 	   { 
+		   flag2 = true;
 		 //  p1 = p0.add(v.scale(t1)); //refactoring
 		   p1 = ray.getPoint(t1);
 		   double len = alignZero(p1.subtract(center).lengthSquared());
 		   if(isZero(alignZero(len - radius*radius)))
 			   flag1 = true;
-		   if(p1.equals(p0))//makes sure not at the begining of the ray
+		   if(p1.equals(p0))//makes sure not at the begining of the ray  
 			   flag1 = false;
 			   
 	     }
@@ -104,5 +106,23 @@ public class Sphere extends RadialGeometry {
 	   }
        return null;
 	}
-	
+    
+    
+    /**
+	 * 
+	 * @param ray
+	 * @returns The point and the shape the point is on
+	 */
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		List<Point> intersections = findIntersections(ray);
+		if(intersections == null)
+			return null;
+		Point point1 = intersections.get(0);
+
+		if(intersections.size() == 1)
+			return List.of(new GeoPoint(this, point1));
+		
+		Point point2 = intersections.get(1);
+		return List.of(new GeoPoint(this, point1), new GeoPoint(this, point2));
+	}
 }

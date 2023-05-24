@@ -92,9 +92,8 @@ public class Polygon extends Geometry {
 	   return null;
    }
    
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		// TODO Auto-generated method stub
-		return null;
-	}
+   protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+	   return null;
+   }
 }
 

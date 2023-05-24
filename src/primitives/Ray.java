@@ -2,7 +2,7 @@ package primitives;
 
 import java.util.Objects;
 import java.util.*;
-
+import geometries.Intersectable.GeoPoint;
 
 
 /**
@@ -73,26 +73,56 @@ public class Ray {
 	 * @param lst
 	 * @returns the point closest to the top of the ray
 	 */
-	public Point findClosestPoint(List<Point> lst)
+	public Point findClosestPoint(List<Point> points) {
+		 return points == null || points.isEmpty() ? null
+		 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
+		}
+	
+//	public Point findClosestPoint(List<Point> lst)
+//	{
+//		if(lst == null || lst.size() < 2)
+//			return null;
+//		
+//		Point minP = lst.get(0);
+//		
+//		for (Point temp: lst)
+//		{
+//			double tempMin = temp.distance(p0);
+//			if (tempMin < minP.distance(p0))
+//			{
+//				minP = temp;
+//			}
+//		}
+//		return minP;
+//	}
+//	
+	
+	public GeoPoint findClosestGeoPoint(List<GeoPoint> lst)
 	{
+		
+
 		if(lst == null || lst.size() < 2)
 			return null;
 		
-		Point minP = lst.get(0);
+		GeoPoint minP = lst.get(0);
 		
-		for (Point temp: lst)
+		for (GeoPoint temp: lst)
 		{
-			double tempMin = temp.distance(p0);
-			if (tempMin < minP.distance(p0))
+			double tempMin = temp.point.distance(p0);
+			if (tempMin < minP.point.distance(p0))
 			{
 				minP = temp;
 			}
 		}
 		return minP;
-	}
 	
-	
-	
+		
+//		List<GeoPoint> lst = null;
+//		for (Point point : intersections)
+//			lst.add(new GeoPoint(null, point));
+//		return findClosestGeoPoint(lst).point;
+//	
+		}
 	
 
 }
