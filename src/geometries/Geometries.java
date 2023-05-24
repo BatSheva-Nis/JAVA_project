@@ -46,18 +46,17 @@ public class Geometries extends Intersectable {
 	}
 	/***
 	 * the function checks if there are intersection between the ray and the composite
-	 *  and if yes returns a list with the intersection
+	 *  and if yes returns a list with the intersection 
 	 * @param ray
-	 * @returns list of intersection. no limit intersections
+	 * @returns list of intersection geoPoint . no limit intersections
 	 */
-	@Override
-	public List<Point> findIntersections(Ray ray)
-	{
-		List<Point> big= new ArrayList<Point>();
-		List<Point> small= new ArrayList<Point>();
+	
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+		List<GeoPoint> big= new ArrayList<GeoPoint>();
+		List<GeoPoint> small= new ArrayList<GeoPoint>();
 		for(Intersectable geo : lst)//goes through all the shapes in the composite
 		{
-			small =geo.findIntersections(ray);//gets the intersections of 1 shape and the ray
+			small =geo.findGeoIntersectionsHelper(ray);//gets the intersections of 1 shape and the ray
 			if(small !=null)//if there are intersections
 			    big.addAll(small);					
 		}
@@ -65,21 +64,18 @@ public class Geometries extends Intersectable {
 			return big;
 
 		return null;
-	}
-	
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		List<GeoPoint> intersections = null;
-		for (Intersectable geometry : lst)
-		{
-			List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray);
-			if(geometryIntersections.size() != 0)
-			{
-				for(GeoPoint point: geometryIntersections)
-					intersections.add(point);
-			}	
-		}
-				
-		return intersections;
+//		List<GeoPoint> intersections = null;
+//		for (Intersectable geometry : lst)
+//		{
+//			List<GeoPoint> geometryIntersections = geometry.findGeoIntersections(ray);
+//			if(geometryIntersections.size() != 0)
+//			{
+//				for(GeoPoint point: geometryIntersections)
+//					intersections.add(point);
+//			}	
+//		}
+//				
+//		return intersections;
 	}
 	
 	

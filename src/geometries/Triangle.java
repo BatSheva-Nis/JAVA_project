@@ -24,17 +24,15 @@ public class Triangle extends Polygon {
     public Triangle(Point point1, Point point2, Point point3) {
         super(point1, point2, point3);
     }
-    
-    /***
+
+	
+	/**
 	 * the function checks if there are intersection between the ray and the plane
 	 *  and if yes returns a list with the intersection
 	 * @param ray
-	 * @returns list of inersection. 1/0 intersections
+	 * @returns list of inersection. 1/0 intersections .The point and the shape the point is on
 	 */
-	@Override
-	 public List<Point> findIntersections(Ray ray)
-	{
-		
+	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
 		Point p0=ray.getP0();
 		Vector v = ray.getDir();
 		
@@ -55,29 +53,17 @@ public class Triangle extends Polygon {
 			flag = true;
 		
 		if(flag == true)
-		   return plane.findIntersections(ray); //list of the intersections with the plane that the triangle is in	
+		{
+			List<GeoPoint> lst = plane.findGeoIntersectionsHelper(ray); //list of the intersections with the plane that the triangle is in	
+			if(lst!= null)
+			{
+				lst.get(0).geometry= this;//changes the shape to say triangle
+				return lst;
+			}
+		}
+		   
 		return null;//if it hits the plane but not the triangle
 	}
 	
-	/**
-	 * 
-	 * @param ray
-	 * @returns The point and the shape the point is on
-	 */
-	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		List<Point> intersections = findIntersections(ray);
-		if(intersections == null)
-			return null;
-		Point point = intersections.get(0);
-		return List.of(new GeoPoint(this, point));
-	}
-	
-//	public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-//		var intersections = plane.findGeoIntersections(ray);
-//		Check the point is inside the shape according to
-//		appropriate algorithm and return null if it is not there
-//		Replace the geometry in the [single] intersection found
-//		for plane to this
-//		return intersections
-//		}
+
 }

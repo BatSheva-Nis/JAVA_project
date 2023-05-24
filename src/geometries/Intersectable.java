@@ -55,17 +55,7 @@ public abstract class Intersectable {
 		var geoList = findGeoIntersections(ray);
 		return geoList == null ? null : geoList.stream().map(gp -> gp.point).toList();
 	}
-	
-//	public List<Point> findIntersections(Ray ray){
-//		List<GeoPoint> intersections = findGeoIntersections(ray);
-//		if (intersections == null)
-//			return null;
-//		List<Point> lst = null;
-//		for (GeoPoint GPoint : intersections)
-//			lst.add(GPoint.point);	
-//		return lst;
-//	}
-	
+		
 	/**
 	 * 
 	 * @param ray

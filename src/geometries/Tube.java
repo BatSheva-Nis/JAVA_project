@@ -44,16 +44,7 @@ public class Tube extends RadialGeometry {
     public Vector getNormal(Point point) {
     	return null;
     }
-    /***
-	 * 
-	 * @param ray
-	 * @return the list of intersections
-	 */
-//    @Override
-//	public List<Point> findIntersections(Ray ray)
-//	{
-//		return null;
-//	}
+
     
     /**
 	 * 
@@ -61,11 +52,7 @@ public class Tube extends RadialGeometry {
 	 * @returns The point and the shape the point is on
 	 */
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-		List<Point> intersections = findIntersections(ray);
-		if(intersections == null)
-			return null;
-		Point point = intersections.get(0);
-		return List.of(new GeoPoint(this, point));
+		return null;
 	}
 
 }

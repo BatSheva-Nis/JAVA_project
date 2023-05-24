@@ -80,74 +80,38 @@ public class Plane extends Geometry {
     public Vector getNormal(Point point) {
         return getNormal();
     }
-    
-    
-    /***
-     * the function checks if there are intersection between the ray and the plane
-     *  and if yes returns a list with the intersection
-     * @param ray
-     * @returns list of inersection. 1/0 intersections
-     */  
-    @Override
-    public List<Point> findIntersections(Ray ray)
-    {
-         if(q0.equals(ray.getP0()))//if the ray starts on the plane
- 	        	return null;
-    
-    	Vector v = q0.subtract(ray.getP0());//q0-p0 vector
-    	double t = normal.dotProduct(v);
-    	double check = normal.dotProduct(ray.getDir());
-    	
-        if (isZero(alignZero(check)))
-            return null;//It means that the ray is parallel to the plane
-        
-        if(isZero(alignZero(t)))
-           return null;
-        
-    	t=t/check;
-    	
-    	//p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
-    	Point p= ray.getPoint(t);
-    	
-    	if(t<=0)
-    		return null;
-    	return List.of(p);
-    }
-    
+       
     
     /**
-	 * 
+	 * the function checks if there are intersection between the ray and the plane
+     *  and if yes returns a list with the intersections
 	 * @param ray
-	 * @returns The point and the shape the point is on
+	 * @returns The point and the shape the point is on list of inersection. 1/0 intersections
 	 */
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
 		
-//        if(q0.equals(ray.getP0()))//if the ray starts on the plane
-//	        	return null;
-//
-//        Vector v = q0.subtract(ray.getP0());//q0-p0 vector
-//        double t = normal.dotProduct(v);
-//        double check = normal.dotProduct(ray.getDir());
-//	
-//        if (isZero(alignZero(check)))
-//        	return null;//It means that the ray is parallel to the plane
-//    
-//        if(isZero(alignZero(t)))
-//        	return null;
-//    
-//        t=t/check;
-//	
-//        //p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
-//        Point p= ray.getPoint(t);
-//	
-//        if(t<=0)
-//		return null;
-//        return List.of(p);
-		List<Point> intersections = findIntersections(ray);
-		if(intersections == null)
-			return null;
-		Point point = intersections.get(0);
-		return List.of(new GeoPoint(this, point));
+		if(q0.equals(ray.getP0()))//if the ray starts on the plane
+	        	return null;
+
+	Vector v = q0.subtract(ray.getP0());//q0-p0 vector
+	double t = normal.dotProduct(v);
+	double check = normal.dotProduct(ray.getDir());
+	
+    if (isZero(alignZero(check)))
+        return null;//It means that the ray is parallel to the plane
+    
+    if(isZero(alignZero(t)))
+       return null;
+    
+	t=t/check;
+	
+	//p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
+	Point p= ray.getPoint(t);
+	
+	if(t<=0)
+		return null;
+	GeoPoint g =new GeoPoint(this, p);
+	return List.of(g);
 	}
 }
 
