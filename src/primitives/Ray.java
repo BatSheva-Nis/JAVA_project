@@ -78,10 +78,14 @@ public class Ray {
 		 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
 		}
 	
-	
+	/**
+	 * 
+	 * @param lst
+	 * @return
+	 */
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> lst)
 	{
-		if(lst == null || lst.size() < 2)
+		if(lst == null || lst.size() == 0)
 			return null;
 		
 		GeoPoint minP = lst.get(0);
