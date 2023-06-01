@@ -49,7 +49,25 @@ public class PointLight extends Light implements LightSource {
 		this.position = position;
 		
 	}
-	
-    
+	/**
+	 * gets the intensity of the point
+	 * @param p point
+	 * @returns the intensity color
+	 */
+	public Color getIntensity(Point p)
+	{
+		double d=position.distance(p);
+		double iL = kC + kL*d + kQ*d*d;
+		return getIntensity().reduce(iL);// division
+	}
+	/**
+	 * calculates the direction from the light to the item
+	 * @param p point
+	 * @returns a vector directional vector
+	 */
+	public Vector getL(Point p)
+	{
+		return p.subtract(position).normalize();
+	}
     
 }
