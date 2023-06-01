@@ -135,7 +135,7 @@ public class Camera {
 	/***
 	 * Calculating the color of a pixel in the image and coloring it
 	 */
-	public void renderImage()
+	public Camera renderImage()
 	{
 		if (vTo == null || vUp == null || vRight == null)
 			throw new MissingResourceException("ERROR: missing resource", Vector.class.getName(), "");
@@ -153,6 +153,7 @@ public class Camera {
 				Color color = castRay(im.getNx(), im.getNy(),i ,j);
 				im.writePixel(j, i, color);
 			}	
+		return this;
 	}
 	
 	/***

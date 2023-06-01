@@ -3,7 +3,6 @@
  */
 package lighting;
 import primitives.*;
-import java. lang. math;
 /**
  * @author Rachelli Adler Yael Kahana Batsheva Nissim
  *this class represents light that has a starting point and has a direction. like a flashlight.

@@ -15,28 +15,28 @@ public class PointLight extends Light implements LightSource {
 	/**
 	 * parameters -(mkadmey hanchata)
 	 */
-    private double kC =1;
-    private double kL =0;
-    private double kQ =0;
+    private double kc =1;
+    private double kl =0;
+    private double kq =0;
 	/**
 	 * @param kC the kC to set
 	 */
-	public PointLight setkC(double kC) {
-		this.kC = kC;
+	public PointLight setKc(double kC) {
+		this.kc = kC;
 		return this;
 	}
 	/**
 	 * @param kL the kL to set
 	 */
-	public PointLight setkL(double kL) {
-		this.kL = kL;
+	public PointLight setKl(double kL) {
+		this.kl = kL;
 		return this;
 	}
 	/**
 	 * @param kQ the kQ to set
 	 */
-	public PointLight setkQ(double kQ) {
-		this.kQ = kQ;
+	public PointLight setKq(double kQ) {
+		this.kq = kQ;
 		return this;
 	}
 	/**
@@ -57,7 +57,7 @@ public class PointLight extends Light implements LightSource {
 	public Color getIntensity(Point p)
 	{
 		double d=position.distance(p);
-		double iL = kC + kL*d + kQ*d*d;
+		double iL = kc + kl*d + kq*d*d;
 		return getIntensity().reduce(iL);// division
 	}
 	/**
