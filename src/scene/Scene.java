@@ -18,7 +18,7 @@ public class Scene {
    public Color background = Color.BLACK;
    public AmbientLight ambient = AmbientLight.NONE;
    public Geometries geometries = new Geometries();
-   List<LightSource> lights =new LinkedList<>();
+   public List<LightSource> lights =new LinkedList<>(); //a list of all the lights in the scene
    
    /**
     * ctor that sets just the name
