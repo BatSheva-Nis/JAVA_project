@@ -83,8 +83,8 @@ public class Sphere extends RadialGeometry {
 			    double len =alignZero(p2.subtract(center).lengthSquared());
 				if(isZero(alignZero(len - radius*radius)))
 				    flag2 = true;
-//			    if(p2.equals(p0))//makes sure not at the begining of the ray
-//				   flag2 = false;
+			    if(p2.equals(p0))//makes sure not at the begining of the ray
+				   flag2 = false;
 			   
 		     }
 		   
