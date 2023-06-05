@@ -41,6 +41,15 @@ public class Ray {
 	     this.dir = dir.normalize();
 	 }
 	
+		/** constructor to initiate ray with given point and direction
+	    *
+	    * @param p0 base point
+	    * @param dir direction vector
+	    */
+		 public Ray(Point p0, Vector dir, Vector n) {
+			 this.p0 = p0;
+			 this.dir = dir.add(n);
+		 }
 	 
 	 
 	 @Override

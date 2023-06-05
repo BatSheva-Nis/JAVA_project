@@ -10,10 +10,24 @@ package primitives;
 public class Material {
 
 	/**
-	 * amount of 
+	 * Attenuation coefficients of difuse color
 	 */
 	public Double3 kD = Double3.ZERO;
+	/**
+	 * Attenuation coefficients of specular color
+	 */
 	public Double3 kS =Double3.ZERO;
+	
+	/**
+	 * Attenuation coefficients of transparency
+	 * מקדם הנחתה עבור השתקפות
+	 */
+	public Double3 kT = Double3.ZERO;
+	/**
+	 * Attenuation coefficients of reflection
+	 * מקדם הנחתה עבור שקיפות
+	 */
+	public Double3 kR =Double3.ZERO;
 	public int nShininess =0;
 	
 	/**
@@ -56,6 +70,44 @@ public class Material {
 	 */
 	public Material setKs(double kS) {
 		this.kS = new Double3(kS);
+		return this;
+	}
+	
+	////new stage_7////
+	
+	/**
+	 * @param kT the kT to set -double
+	 * @returns the Material itself
+	 */
+	public Material setKt(Double3 kT) {
+		this.kT = kT;
+		return this;
+	}
+	
+	/**
+	 * @param kR the kR to set -double
+	 * @returns the Material itself
+	 */
+	public Material setKr(Double3 kR) {
+		this.kR = kR;
+		return this;
+	}
+	
+	/**
+	 * @param kT the kT to set -double
+	 * @returns the Material itself
+	 */
+	public Material setKt(double kT) {
+		this.kT = new Double3(kT);
+		return this;
+	}
+	
+	/**
+	 * @param kR the kR to set -double
+	 * @returns the Material itself
+	 */
+	public Material setKr(double kR) {
+		this.kR = new Double3(kR);
 		return this;
 	}
 	
