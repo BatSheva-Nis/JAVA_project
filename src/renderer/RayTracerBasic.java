@@ -8,6 +8,7 @@ import geometries.*;
 import scene.*;
 import java.util.*;
 import geometries.Intersectable.GeoPoint;
+import lighting.DirectionalLight;
 import lighting.LightSource;
 
 
@@ -19,10 +20,15 @@ import lighting.LightSource;
 public class RayTracerBasic extends RayTracerBase{
 
 	/**
+	 * Rayhead move size for shading(צל) rays
+	 */
+	private static final double DELTA = 0.1;
+	
+	/**
 	 * constructor
 	 */
-	public RayTracerBasic(Scene sn) {
-		super(sn);
+	public RayTracerBasic(Scene scene) {
+		super(scene);
 	}
 	
 	/***
@@ -35,9 +41,9 @@ public class RayTracerBasic extends RayTracerBase{
 	public Color traceRay(Ray ray)
 	{
 		//List of intersection points
-		List<GeoPoint> intersections = sn.geometries.findGeoIntersections(ray);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
 		if(intersections == null)
-			return sn.background;
+			return scene.background;
 		//The closest point
 		GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
 		//Returns the color of the closest point
@@ -51,7 +57,7 @@ public class RayTracerBasic extends RayTracerBase{
 	 * @returns the color of the point he received
 	 */
 	private Color calcColor(GeoPoint gp,Ray ray) {
-		return sn.ambient.getIntensity().add(calcLocalEffects(gp, ray));
+		return scene.ambient.getIntensity().add(calcLocalEffects(gp, ray));
 	}
 /**
  * calculate  how much the light effect the shape
@@ -67,16 +73,19 @@ public class RayTracerBasic extends RayTracerBase{
 		if (nv == 0)
 			return color;
 		Material material = gp.geometry.getMaterial(); //gets the material of the shape
-		for (LightSource lightSource : sn.lights) //goes through all the light sources in the picture
+		for (LightSource lightSource : scene.lights) //goes through all the light sources in the picture
 		{
 			Vector l = lightSource.getL(gp.point);//gets the direction the light is going
 			double nl = Util.alignZero(n.dotProduct(l));//nl = dotproduct between normal to the point and directional vector of the light
 			if (nl * nv > 0) //check that the light effect the point on the shape
 			{ // sign(nl) == sing(nv)
-			Color iL = lightSource.getIntensity(gp.point);
-			color = color.add(iL.scale(calcDiffusive(material, nl)),	
-					          iL.scale(calcSpecular(material, n, l, nl, v)));
-		}
+				if(unshaded(gp, lightSource, l, n, nl))
+				{
+					Color iL = lightSource.getIntensity(gp.point);
+					color = color.add(iL.scale(calcDiffusive(material, nl)),	
+					          	iL.scale(calcSpecular(material, n, l, nl, v)));
+				}
+			}
 		}
 		return color;
 	}
@@ -107,6 +116,35 @@ private Double3 calcSpecular(Material material, Vector n, Vector l, double nl, V
  */
 	private Double3 calcDiffusive(Material material, double nl) {
 		return material.kD.scale(Math.abs(nl));
+	}
+	
+	/**
+	 * check non shading
+	 * @param gp
+	 * @param l
+	 * @param n
+	 * @return
+	 */
+	private boolean unshaded(GeoPoint gp, LightSource light, Vector l, Vector n,  double nl)
+	{
+		Vector lightDirection = l.scale(-1); // from point to light source
+		Vector DELTAVector = n.scale(nl < 0 ? DELTA : -DELTA);
+		Point point = gp.point.add(DELTAVector);// נבדוק אם הנקודה הזאת מוצללת
+		Ray lightRay = new Ray(point, lightDirection);
+		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(lightRay);
+		if (intersections == null) 
+			return true;//לא מוצלל
+		double length = light.getDistance(point);
+		if (light instanceof DirectionalLight)
+			return false;//מוצלל
+		
+		for (GeoPoint geoPoint: intersections)
+		{
+			if (geoPoint.point.distance(point)< length)
+				return false;//מוצלל
+		}
+		//לא מוצלל
+		return true;
 	}
 
 }

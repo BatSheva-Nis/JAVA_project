@@ -17,13 +17,13 @@ public abstract class RayTracerBase {
 	 * 3D model of a scene
 	 * 
 	 */
-	final protected Scene sn;
+	final protected Scene scene;
 
 	/**
 	 * constructor
 	 */
-	public RayTracerBase(Scene sn) {
-		this.sn = sn;
+	public RayTracerBase(Scene scene) {
+		this.scene = scene;
 
 	}
 	
