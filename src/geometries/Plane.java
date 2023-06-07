@@ -88,30 +88,31 @@ public class Plane extends Geometry {
 	 * @param ray
 	 * @returns The point and the shape the point is on list of inersection. 1/0 intersections
 	 */
+    @Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
 		
 		if(q0.equals(ray.getP0()))//if the ray starts on the plane
 	        	return null;
 
-	Vector v = q0.subtract(ray.getP0());//q0-p0 vector
-	double t = normal.dotProduct(v);
-	double check = normal.dotProduct(ray.getDir());
+		Vector v = q0.subtract(ray.getP0());//q0-p0 vector
+		double t = normal.dotProduct(v);
+		double check = normal.dotProduct(ray.getDir());
 	
-    if (isZero(alignZero(check)))
-        return null;//It means that the ray is parallel to the plane
+		if (isZero(alignZero(check)))
+			return null;//It means that the ray is parallel to the plane
     
-    if(isZero(alignZero(t)))
-       return null;
+		if(isZero(alignZero(t)))
+			return null;
     
-	t=t/check;
+		t=t/check;
 	
-	//p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
-	Point p= ray.getPoint(t);
+		//p = ray.getP0().add(ray.getDir().scale(t)); //refactoring
+		Point p= ray.getPoint(t);
 	
-	if(t<=0)
-		return null;
-	GeoPoint g =new GeoPoint(this, p);
-	return List.of(g);
+		if(t<=0)
+			return null;
+		GeoPoint g = new GeoPoint(this, p);
+		return List.of(g);
 	}
 }
 

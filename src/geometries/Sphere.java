@@ -49,6 +49,7 @@ public class Sphere extends RadialGeometry {
 	 * @param ray
 	 * @returns list of intersection. 1/0/2 intersections .The point and the shape the point is on
 	 */
+    @Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
 		   Point p0 = ray.getP0();
 		   Vector v = ray.getDir();
@@ -93,8 +94,8 @@ public class Sphere extends RadialGeometry {
 			   return null;
 		   if(flag1 && flag2)//2 intersections
 		   {
-			   GeoPoint g1 =new GeoPoint(this,p1);
-			   GeoPoint g2 =new GeoPoint(this,p2);
+			   GeoPoint g1 = new GeoPoint(this,p1);
+			   GeoPoint g2 = new GeoPoint(this,p2);
 			   return  List.of(g1,g2);
 		   }
 		   if(flag1 && !flag2)//p1 yes

@@ -32,6 +32,7 @@ public class Triangle extends Polygon {
 	 * @param ray
 	 * @returns list of inersection. 1/0 intersections .The point and the shape the point is on
 	 */
+    @Override
 	protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
 		Point p0=ray.getP0();
 		Vector v = ray.getDir();
