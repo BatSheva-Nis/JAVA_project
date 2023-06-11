@@ -407,7 +407,11 @@ public class RayTracerBasic extends RayTracerBase{
 	 */
 	private GeoPoint findClosestIntersection(Ray ray)
 	{
+		if (ray == null)
+			return null;
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
+		if (intersections == null)
+			return null;
 		GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
 		return closestPoint;
 	}
@@ -471,9 +475,10 @@ public class RayTracerBasic extends RayTracerBase{
 	 * @param ray Ray
 	 * @returns the color in account of the lights
 	 */
-  private Color calcGlobalEffects(GeoPoint gp, Vector inRay, int level, Double3 k) {
+    private Color calcGlobalEffects(GeoPoint gp, Vector inRay, int level, Double3 k) {
 	  if (gp == null) {
-          return scene.background;
+          //return Color.BLACK;
+		  return scene.background;
       }
       Color color = Color.BLACK; //base color
       Vector n = gp.geometry.getNormal(gp.point); //normal
@@ -487,6 +492,10 @@ public class RayTracerBasic extends RayTracerBase{
       //construct a reflection  ray from the point
       Ray reflectedRay = constructReflectedRay(n, gp.point, inRay);
       GeoPoint reflectedPoint = findClosestIntersection(reflectedRay);
+      if (reflectedPoint == null) {
+          //return color;
+    	  return scene.background;
+      }
 
       if (!kkr.lowerThan(MIN_CALC_COLOR_K)) { //if the reflection level is not lower than the minimum
           
@@ -505,7 +514,11 @@ public class RayTracerBasic extends RayTracerBase{
       //construct a refracted ray from the point
       Ray refractedRay = constructRefractedRay(n, gp.point, inRay);
       GeoPoint refractedPoint = findClosestIntersection(refractedRay);
-
+      if (refractedPoint == null) {
+          //return color;
+    	  return scene.background;
+      }
+      
       if (!kkt.lowerThan(MIN_CALC_COLOR_K)) {//if the transparency level is not lower than the minimum
         
           //add to the color to the point by recursively calling calcGlobalEffect
@@ -586,15 +599,15 @@ public class RayTracerBasic extends RayTracerBase{
 	
 
 
-//    private Color calcGlobalEffect(Ray ray, int level, Double3 kx, Double3 kkx) {
-//        GeoPoint gp = findClosestIntersection(ray);
-//
-//        if (gp == null) {
-//            return scene.background;
-//        }
-//
-//        return calcColor(gp, ray, level - 1, kkx).scale(kx);
-//    }
+    private Color calcGlobalEffect(Ray ray, int level, Double3 kx, Double3 kkx) {
+        GeoPoint gp = findClosestIntersection(ray);
+
+        if (gp == null) {
+            return scene.background;
+        }
+
+        return calcColor(gp, ray, level - 1, kkx).scale(kx);
+    }
 	
 	
 

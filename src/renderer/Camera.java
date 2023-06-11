@@ -137,6 +137,7 @@ public class Camera {
 	 */
 	public Camera renderImage()
 	{
+//		try {
 		if (vTo == null || vUp == null || vRight == null)
 			throw new MissingResourceException("ERROR: missing resource", Vector.class.getName(), "");
 		if (location == null)
@@ -152,7 +153,11 @@ public class Camera {
 			{
 				Color color = castRay(im.getNx(), im.getNy(),i ,j);
 				im.writePixel(j, i, color);
-			}	
+			}
+//		}
+//		catch(MissingResourceException e) {
+//			throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
+//		}
 		return this;
 	}
 	

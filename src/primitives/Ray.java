@@ -13,6 +13,10 @@ import geometries.Intersectable.GeoPoint;
 public class Ray {
 	private final Point p0;  /**נקודה*/
 	private final Vector dir; /**כיוון*/
+	/**
+	 * Constant for moving the beginning of the ray for shading rays
+	 */
+	private static final double DELTA = 0.1;
 	
 	/** getter
     *
@@ -41,15 +45,16 @@ public class Ray {
 	     this.dir = dir.normalize();
 	 }
 	
-		/** constructor to initiate ray with given point and direction
-	    *
-	    * @param p0 base point
-	    * @param dir direction vector
-	    */
-		 public Ray(Point p0, Vector dir, Vector n) {
-			 this.p0 = p0;
-			 this.dir = dir.add(n);
-		 }
+	/** constructor to initiate ray with given point and direction
+	 *
+	 * @param p0 base point
+	 * @param dir direction vector
+	 */
+	 public Ray(Point p0, Vector dir, Vector n) {
+		 Vector epsVector = n.scale(n.dotProduct(dir)>0? DELTA:-DELTA);
+		 this.p0 = p0.add(epsVector);
+		 this.dir = dir.normalize();
+	 }
 	 
 	 
 	 @Override
@@ -103,6 +108,7 @@ public class Ray {
 		//We will go over all the points in the list
 		for (GeoPoint temp: lst)
 		{
+			
 			double tempMin = temp.point.distance(p0);
 			if (tempMin < minP.point.distance(p0))
 			{

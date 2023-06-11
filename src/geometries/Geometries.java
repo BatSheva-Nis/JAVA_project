@@ -64,6 +64,7 @@ public class Geometries extends Intersectable {
 			return big;
 
 		return null;
+	}
 //		List<GeoPoint> intersections = null;
 //		for (Intersectable geometry : lst)
 //		{
@@ -76,7 +77,7 @@ public class Geometries extends Intersectable {
 //		}
 //				
 //		return intersections;
-	}
+//	}
 	
 	
 

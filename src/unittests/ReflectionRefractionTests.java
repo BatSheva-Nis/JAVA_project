@@ -72,8 +72,7 @@ public class ReflectionRefractionTests {
       ImageWriter imageWriter = new ImageWriter("reflectionTwoSpheresMirrored", 500, 500);
       camera.setImageWriter(imageWriter) //
          .setRayTracer(new RayTracerBasic(scene)) //
-         .renderImage() //
-         .writeToImage();
+           .writeToImage();
    }
 
    /** Produce a picture of a two triangles lighted by a spot light with a
