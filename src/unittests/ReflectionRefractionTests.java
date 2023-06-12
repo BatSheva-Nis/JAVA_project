@@ -3,21 +3,13 @@ package unittests;
 
 import static java.awt.Color.*;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import geometries.Plane;
-import geometries.Polygon;
-import geometries.Sphere;
-import geometries.Triangle;
-import lighting.AmbientLight;
-import lighting.DirectionalLight;
-import lighting.PointLight;
-import lighting.SpotLight;
+import geometries.*;
+import lighting.*;
 import primitives.*;
 import renderer.*;
-import scene.Scene;
+import scene.*;
 
 /** Tests for reflection and transparency functionality, test for partial
  * shadows
