@@ -282,7 +282,7 @@ public class RayTracerBasic extends RayTracerBase{
 		List<GeoPoint> intersections = scene.geometries.findGeoIntersections(ray);
 		if (intersections == null)
 			return null;
-		GeoPoint closestPoint = ray.findGeoClosestPoint(intersections);
+		GeoPoint closestPoint = ray.findClosestGeoPoint(intersections);
 		return closestPoint;
 	}
 	
