@@ -245,7 +245,7 @@ public class Camera {
 	   
 		
 		/***
-		 * Building a ray from the camera to the pixel we received for the view plane
+		 * Building a rays from the camera to the pixel we received for the view plane
 		 * @param nX amount of columns
 		 * @param nY amount of rows
 		 * @param j number column
@@ -285,8 +285,8 @@ public class Camera {
 					for(int l=0; l<amountRaysColomn;l++)
 					{
 						Point p =pIJ;
-						double xjj = -(k-(amountRaysColomn-1)/2d)*ry;
-						double yii = -(l-(amountRaysRow-1)/2d)*rx;
+						double yii = -(k-(amountRaysColomn-1)/2d)*ry;
+						double xjj = -(l-(amountRaysRow-1)/2d)*rx;
 						if (!Util.isZero(yii)) 
 							p = p.add(vUp.scale(yii));
 						if (!Util.isZero(xjj)) 
@@ -301,13 +301,13 @@ public class Camera {
 		
 		
 		/***
+		 * actually colores the pixel!!
 		 * Calculating the color of the received pixel by creating a ray
 		 * and finding the closest object and its color
 		 * @param nX
 		 * @param nY
 		 * @param j
 		 * @param i
-		 * @returns the color in which we will paint the pixel
 		 */
 		 public void castMultiRay(int nX ,int nY,int j ,int i)
 		 {
@@ -315,7 +315,7 @@ public class Camera {
 			 List<Ray> lstRays = constructMultiRay(nX, nY, i, j);
 			 //Finding the color
 			 Color pixelColor = rtb.traceMultiRay(lstRays);
-			 im.writePixel(j, i, pixelColor);
+			 im.writePixel(i, j, pixelColor);
 			 
 		 }
 		 
