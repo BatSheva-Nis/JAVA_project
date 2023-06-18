@@ -286,6 +286,30 @@ public class RayTracerBasic extends RayTracerBase{
 		return closestPoint;
 	}
 	
+	
+	//****************************MiniProject1****************************
+	/***
+	 * Finds the list of intersection points of the ray with the scene 
+	 * and returns the color of the closest point, 
+	 * with this color we will color the pixel
+	 * @param ray
+	 * @returns the color
+	 */
+	public Color traceMultiRay(List<Ray> rays)
+	{
+		Color colorSum = Color.BLACK;
+		for (Ray ray: rays)
+		{
+			GeoPoint closestPoint = findClosestIntersection(ray);
+			if (closestPoint != null)
+				colorSum = colorSum.add(calcColor(closestPoint, ray));
+			else
+				colorSum = colorSum.add(scene.background);
+		}
+	
+		return colorSum.reduce(rays.size());
+	}
+	
 }
 
 

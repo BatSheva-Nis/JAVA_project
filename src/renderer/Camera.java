@@ -2,6 +2,8 @@
  * 
  */
 package renderer;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.MissingResourceException;
 
 import geometries.*;
@@ -32,6 +34,12 @@ public class Camera {
 	private ImageWriter im;
 	//field of RayTracerBase
 	private RayTracerBase rtb;
+	
+	//****************************MiniProject1****************************
+	
+	// number of rays from V.P. to the scene
+	int amountRaysColomn=0;
+	int amountRaysRow=0;
 	
 	/**
 	 * ctor that gets:
@@ -214,6 +222,136 @@ public class Camera {
 			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
 		im.writeToImage();
 	}
+	
+	
+	//****************************MiniProject1****************************
+	
+		/**
+		 * @param amountRaysColomn the amountRaysColomn to set
+		 */
+		public Camera setAmountRaysColomn(int amountRaysColomn) {
+			this.amountRaysColomn = amountRaysColomn;
+			return this;
+		}
+
+		/**
+		 * @param amountRaysRow the amountRaysRow to set
+		 */
+		public Camera setAmountRaysRow(int amountRaysRow) {
+			this.amountRaysRow = amountRaysRow;
+			return this;
+		}
+		
+	   
+		
+		/***
+		 * Building a ray from the camera to the pixel we received for the view plane
+		 * @param nX amount of columns
+		 * @param nY amount of rows
+		 * @param j number column
+		 * @param i number row
+		 * @returns a ray from the camera to the ij pixel
+		 */
+		public List<Ray> constructMultiRay(int nX, int nY, int j, int i)
+		{
+			if(amountRaysRow <= 0 || amountRaysColomn <= 0)//no set amount of rays then default is 1.
+				return List.of(constructRay(nX, nY, j, i));
+
+				List<Ray> lstRays = new LinkedList<>();
+				//size of 1 pixel
+				double ry =height/nY;//height - orech
+				double rx =width/nX;
+				
+				//the center of the pixel
+				Point pIJ = location.add(vTo.scale(distance)); //middle of the view plane
+				
+				//the amount to move from the middle
+				double yI = -1*ry* (i-(nY-1)/2d);//move row (+up, -down)
+				double xJ = 1*rx* (j-(nX-1)/2d);//move colomn(+right, -left)
+
+				//moves from the middle of the view plane
+				if (xJ != 0) 
+					pIJ = pIJ.add(vRight.scale(xJ));
+				if (yI != 0) 
+					pIJ = pIJ.add(vUp.scale(yI));
+				
+				
+				ry= ry/amountRaysColomn;
+				rx = rx/amountRaysRow;
+				
+				//move within the pixel
+				for(int k=0; k< amountRaysRow; k++)//row
+				{
+					for(int l=0; l<amountRaysColomn;l++)
+					{
+						Point p =pIJ;
+						double xjj = -(k-(amountRaysColomn-1)/2d)*ry;
+						double yii = -(l-(amountRaysRow-1)/2d)*rx;
+						if (!Util.isZero(yii)) 
+							p = p.add(vUp.scale(yii));
+						if (!Util.isZero(xjj)) 
+							p = p.add(vRight.scale(xjj));
+						
+						lstRays.add(new Ray(location, p.subtract(location)));
+					}
+				}
+				return lstRays;
+		}
+		
+		
+		
+		/***
+		 * Calculating the color of the received pixel by creating a ray
+		 * and finding the closest object and its color
+		 * @param nX
+		 * @param nY
+		 * @param j
+		 * @param i
+		 * @returns the color in which we will paint the pixel
+		 */
+		 public void castMultiRay(int nX ,int nY,int j ,int i)
+		 {
+			 //Creates a ray from the camera to the pixel
+			 List<Ray> lstRays = constructMultiRay(nX, nY, i, j);
+			 //Finding the color
+			 Color pixelColor = rtb.traceMultiRay(lstRays);
+			 im.writePixel(j, i, pixelColor);
+			 
+		 }
+		 
+		 
+		 /***
+			 * Calculating the color of a pixel in the image and coloring it
+			 * mini project 1 casting multi rays. anti alising 
+			 */
+			public Camera renderMultiImage()
+			{
+				try {
+				if (vTo == null || vUp == null || vRight == null)
+					throw new MissingResourceException("ERROR: missing resource", Vector.class.getName(), "");
+				if (location == null)
+					throw new MissingResourceException("ERROR: missing resource", Point.class.getName(), "");
+				if (im== null)
+					throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
+				if (rtb == null)
+					throw new MissingResourceException("ERROR: missing resource", RayTracerBase.class.getName(), "");
+				//throw new UnsupportedOperationException();
+				//iterator over the pixels in the image
+				for(int i=0 ; i < im.getNy() ; i++)
+					for(int j=0 ; j < im.getNx() ; j++)
+					{
+					
+						castMultiRay(im.getNx(), im.getNy(),i ,j);//colors the pixel by average
+						
+					}
+				}
+				catch(MissingResourceException e) {
+					throw new UnsupportedOperationException("Not implemented yet" + e.getClassName());
+				}
+				return this;
+			}
+
+
 	
 
 }

@@ -3,6 +3,9 @@
  */
 package renderer;
 import primitives.*;
+
+import java.util.List;
+
 import geometries.*;
 import scene.*;
 
@@ -36,5 +39,7 @@ public abstract class RayTracerBase {
 	 * @returns the color
 	 */
 	public abstract Color traceRay(Ray ray);
+	
+	public abstract Color traceMultiRay(List<Ray> rays);
 
 }
