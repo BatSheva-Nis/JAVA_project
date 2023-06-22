@@ -10,6 +10,7 @@ import geometries.*;
 import primitives.*;
 import scene.*;
 import java.util.Hashtable;
+import renderer.Pixel;
 
 /**
  * Camera class The representation of the camera in relation to the view plan
@@ -54,6 +55,10 @@ public class Camera {
 		//true if we use adaptive supersampling
 		private boolean useAdaptive = false;
 
+		private int threadsCount = 0;
+	    private static final int SPARE_THREADS = 2;
+	    private boolean print =false;
+	    
 		
 	/**
 	 * ctor that gets:
@@ -188,6 +193,7 @@ public class Camera {
 			throw new MissingResourceException("ERROR: missing resource", RayTracerBase.class.getName(), "");
 		//throw new UnsupportedOperationException();
 		//iterator over the pixels in the image
+		
 		for(int i=0 ; i < im.getNy() ; i++)
 			for(int j=0 ; j < im.getNx() ; j++)
 			{
@@ -510,6 +516,83 @@ public class Camera {
 			        }
 			        return pointColorTable.get(point);
 			    }
+			    
+
+			    public Camera setMultithreading(int threads) 
+			    {
+//			        if (threads < 0)
+//			            throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
+//			        if (threads != 0)
+//			            this.threadsCount = threads;
+//			        else {
+//			            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+//			            this.threadsCount = cores <= 2 ? 1 : cores;
+//			        }
+			    	this.threadsCount = threads;
+			        return this;
+			    }
+			    
+//			    
+//			    Pixel.initialize(nY, nX, printInterval);
+//			    while (threadsCount-- > 0) {
+//			     new Thread(() -> {
+//			     for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+//			     castRay(nX, nY, pixel.col, pixel.row);
+//			     }).start();
+//			    }
+//			    Pixel.waitToFinish();
+
+			    private void ImageThreaded(long printInterval) 
+			    {
+			        final int nX = im.getNx();
+			        final int nY = im.getNy();
+			        
+			        Pixel.initialize(nY, nX, printInterval);
+				    while (threadsCount-- > 0) {
+				     new Thread(() -> {
+				     for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
+				     castRay(nX, nY, pixel.col, pixel.row);
+				     }).start();
+				    }
+				    Pixel.waitToFinish();
+			        
+			        
+//			        final Pixel thePixel = new Pixel(nY, nX);
+//			        // Generate threads
+//			        Thread[] threads = new Thread[threadsCount];
+//			        for (int i = threadsCount - 1; i >= 0; --i) {
+//			            threads[i] = new Thread(() -> {
+//			                Pixel pixel = new Pixel();
+//			                while (thePixel.nextPixel(pixel))
+//			                    castRay(nX, nY, pixel.cCol, pixel.cRow);
+//			            });
+//			        }
+				    
+				    
+			        // Start threads
+			        for (Thread thread : threads)
+			            thread.start();
+
+			        // Print percents on the console
+			        thePixel.pixelDone();
+
+			        // Ensure all threads have finished
+			        for (Thread thread : threads)
+			            try {
+			                thread.join();
+			            } catch (Exception e) {
+			            }
+
+			        if (print)
+			            System.out.print("\r100%");
+			    }
+
+			    public Camera setDebugPrint() {
+			        print = true;
+			        return this;
+			    }
+
+
 }
 
 
