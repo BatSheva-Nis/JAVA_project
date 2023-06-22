@@ -9,7 +9,7 @@ import java.util.MissingResourceException;
 import geometries.*;
 import primitives.*;
 import scene.*;
-
+import java.util.Hashtable;
 
 /**
  * Camera class The representation of the camera in relation to the view plan
@@ -38,12 +38,23 @@ public class Camera {
 	//field of RayTracerBase
 	private RayTracerBase rtb;
 	
+	
+	
 	//****************************MiniProject1****************************
 	
 	// number of rays from V.P. to the scene
 	int amountRaysColomn=0;
 	int amountRaysRow=0;
 	
+
+	//****************************MiniProject2****************************
+		
+	//how many times to do recursive function in adaptive
+		private int maxAdaptiveLevel = 2;
+		//true if we use adaptive supersampling
+		private boolean useAdaptive = false;
+
+		
 	/**
 	 * ctor that gets:
 	 * @param location a point where the camra is
@@ -108,6 +119,39 @@ public class Camera {
 		return this;
 	}
 	
+	  /**
+     * function that calculates the pixels location
+     *
+     * @param nX the x resolution
+     * @param nY the y resolution
+     * @param i  the x coordinate
+     * @param j  the y coordinate
+     * @return the ray
+     */
+    private Point middlePixel(int nX, int nY, int j, int i) 
+    {
+
+    	//size of 1 pixel
+		double ry =height/nY;
+		double rx =width/nX;
+		
+		//the center of the pixel
+		Point pIJ = location.add(vTo.scale(distance)); //middle of the view plane
+		
+		//the amount to move from the middle
+		double yI = -1*ry* (i-(nY-1)/2d);
+		double xJ = 1*rx* (j-(nX-1)/2d);
+		
+		
+		//moves from the middle of the view plane
+		if (xJ != 0) 
+			pIJ = pIJ.add(vRight.scale(xJ));
+		if (yI != 0) 
+			pIJ = pIJ.add(vUp.scale(yI));
+        return pIJ;
+    }
+    
+    
 	/***
 	 * Building a ray from the camera to the pixel we received for the view plane
 	 * @param nX amount of columns
@@ -120,24 +164,9 @@ public class Camera {
 	{
 		if(nY != 0 && nX != 0)//no view plane
 		{
-			//size of 1 pixel
-			double ry =height/nY;
-			double rx =width/nX;
-			
-			//the center of the pixel
-			Point pIJ = location.add(vTo.scale(distance)); //middle of the view plane
-			
-			//the amount to move from the middle
-			double yI = -1*ry* (i-(nY-1)/2d);
-			double xJ = 1*rx* (j-(nX-1)/2d);
-			
-			//moves from the middle of the view plane
-			if (xJ != 0) 
-				pIJ = pIJ.add(vRight.scale(xJ));
-			if (yI != 0) 
-				pIJ = pIJ.add(vUp.scale(yI));
-			
+			Point pIJ = middlePixel(nX, nY , i,j);
 			Vector v = pIJ.subtract(location);
+			
 			return new Ray(location, v);
 		}
 		throw new IllegalArgumentException("ERROR: cant devide by 0");
@@ -172,24 +201,47 @@ public class Camera {
 		return this;
 	}
 	
-	/***
-	 * Calculating the color of the received pixel by creating a ray
-	 * and finding the closest object and its color
-	 * @param nX
-	 * @param nY
-	 * @param j
-	 * @param i
-	 * @returns the color in which we will paint the pixel
-	 */
-	 public Color castRay(int nX ,int nY,int j ,int i)
-	 {
-		 //Creates a ray from the camera to the pixel
-		 Ray ray = constructRay(nX, nY, i, j);
-		 //Finding the color
-		 Color c = rtb.traceRay(ray);
-		 return c;
-		 
-	 }
+	
+	/**
+     * function that casts ray and returns color
+     *
+     * @param nX the x resolution
+     * @param nY the y resolution
+     * @param j  the x coordinate
+     * @param i  the y coordinate
+     * @return the color
+     */
+    private Color castRay(int nX, int nY, int j, int i) {
+        if (useAdaptive == true)
+        {
+        	Point p = middlePixel(nX, nY, i, j);      
+            return adaptiveHelper(p, nX, nY);
+        }
+        else
+        {
+            return rtb.traceMultiRay(constructMultiRay(nX, nY, i, j));
+        }
+    }
+    
+    
+//	/***
+//	 * Calculating the color of the received pixel by creating a ray
+//	 * and finding the closest object and its color
+//	 * @param nX
+//	 * @param nY
+//	 * @param j
+//	 * @param i
+//	 * @returns the color in which we will paint the pixel
+//	 */
+//	 public Color castRay(int nX ,int nY,int j ,int i)
+//	 {
+//		 //Creates a ray from the camera to the pixel
+//		 Ray ray = constructRay(nX, nY, i, j);
+//		 //Finding the color
+//		 Color c = rtb.traceRay(ray);
+//		 return c;
+//		 
+//	 }
 	
 	 /***
 	  * Coloring the pixels with the color we got, 
@@ -354,7 +406,110 @@ public class Camera {
 				return this;
 			}
 
+			//****************************MiniProject2****************************
 
-	
+			
+			 /**
+		     * setter for UseAdaptive
+		     * @param useAdaptive- the number of pixels in row/col of every pixel
+		     * @return camera itself
+		     */
+		    public Camera setUseAdaptive(boolean useAdaptive) {
+		        this.useAdaptive = useAdaptive;
+		        return this;
+		    }
+		    
+		    /**
+		     * setter for maxAdaptiveLevel
+		     * @param maxAdaptiveLevel- The depth of the recursion
+		     * @return camera itself
+		     */
+		    public Camera setMaxAdaptiveLevel(int maxAdaptiveLevel) {
+		        this.maxAdaptiveLevel = maxAdaptiveLevel;
+		        return this;
+		    }
+		    
+			 /**
+		     * get the point and return the color of the ray to this point
+		     *
+		     * @param p- point on the view plane
+		     * @return color of this point
+		     */
+		    private Color calcPointColor(Point p) {
+		        return rtb.traceRay(new Ray(location, p.subtract(location)));
+		    }
+		    
+		    
+			  private Color adaptiveHelper(Point center, double nY, double nX)
+			  {
+		        Hashtable<Point, Color> pointColorTable = new Hashtable<Point, Color>();
+		        double rY = height / nY / 2;
+		        double rX = width / nX / 2;
+		        Color upRight = calcPointColor(center.add(vUp.scale(rY)).add(vRight.scale(rX)));
+		        Color upLeft = calcPointColor(center.add(vUp.scale(rY)).add(vRight.scale(-rX)));
+		        Color downRight = calcPointColor(center.add(vUp.scale(-rY)).add(vRight.scale(rX)));
+		        Color downLeft = calcPointColor(center.add(vUp.scale(-rY)).add(vRight.scale(-rX)));
 
+		        return adaptive(1, center, rX, rY, pointColorTable, upLeft, upRight, downLeft, downRight);
+		    }
+			  /**
+			     * recursive method that return the average color of the pixel- by checking the color of the four corners
+			     *
+			     * @param max-         the depth of the recursion
+			     * @param center-      the center of the pixel
+			     * @param rX-          the width of the pixel
+			     * @param rY-          the height of the pixel
+			     * @param upLeftCol-   the color of the vUp left corner
+			     * @param upRightCol-  the color of the vUp vRight corner
+			     * @param downLeftCol- the color of the down left corner
+			     * @param downRightCol - the color of the down vRight corner
+			     * @return the average color of the pixel
+			     */
+			    private Color adaptive(int max, Point center, double rX, double rY, Hashtable<Point, Color> pointColorTable,
+			                           Color upLeftCol, Color upRightCol, Color downLeftCol, Color downRightCol) {
+			        if (max == maxAdaptiveLevel) {
+			            return downRightCol.add(upLeftCol).add(upRightCol).add(downLeftCol).reduce(4);
+			        }
+			        if (upRightCol.equals(upLeftCol) && downRightCol.equals(downLeftCol) && downLeftCol.equals(upLeftCol))
+			            return upRightCol;
+			        else {
+			            Color rightPCol = getPointColorFromTable(center.add(vRight.scale(rX)), pointColorTable);
+			            Color leftPCol = getPointColorFromTable(center.add(vRight.scale(-rX)), pointColorTable);
+			            Color upPCol = getPointColorFromTable(center.add(vUp.scale(rY)), pointColorTable);
+			            Color downPCol = getPointColorFromTable(center.add(vUp.scale(-rY)), pointColorTable);
+			            Color centerCol = calcPointColor(center);
+
+			            rX = rX / 2;
+			            rY = rY / 2;
+			            upLeftCol = adaptive(max + 1, center.add(vUp.scale(rY / 2)).add(vRight.scale(-rX / 2)), rX, rY, pointColorTable,
+			                    upLeftCol, upPCol, leftPCol, centerCol);
+			            upRightCol = adaptive(max + 1, center.add(vUp.scale(rY / 2)).add(vRight.scale(rX / 2)), rX, rY, pointColorTable,
+			                    upPCol, upRightCol, centerCol, leftPCol);
+			            downLeftCol = adaptive(max + 1, center.add(vUp.scale(-rY / 2)).add(vRight.scale(-rX / 2)), rX, rY, pointColorTable,
+			                    leftPCol, centerCol, downLeftCol, downPCol);
+			            downRightCol = adaptive(max + 1, center.add(vUp.scale(-rY / 2)).add(vRight.scale(rX / 2)), rX, rY, pointColorTable,
+			                    centerCol, rightPCol, downPCol, downRightCol);
+			            return downRightCol.add(upLeftCol).add(upRightCol).add(downLeftCol).reduce(4);
+			        }
+			    }
+
+			    /**
+			     * check if this point exist in the HashTable return his color. otherwise calculate the color and save it
+			     *
+			     * @param point-           certain point in the pixel
+			     * @param pointColorTable- dictionary that save points and their color
+			     * @return the color of the point
+			     */
+			    private Color getPointColorFromTable(Point point, Hashtable<Point, Color> pointColorTable)
+			    {
+			        if (!(pointColorTable.containsKey(point)))
+                    {
+			            Color color = calcPointColor(point);
+			            pointColorTable.put(point, color);
+			            return color;
+			        }
+			        return pointColorTable.get(point);
+			    }
 }
+
+
