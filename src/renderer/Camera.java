@@ -255,7 +255,7 @@ public class Camera {
 	  * @param interval
 	  * @param color
 	  */
-	public void printGrid(int interval, Color color)
+	public Camera printGrid(int interval, Color color)
 	{
 		if(im == null)
 			throw new MissingResourceException("ERROR: missing resource", ImageWriter.class.getName(), "");
@@ -272,6 +272,7 @@ public class Camera {
 				im.writePixel(j, i, color);
 		
 		writeToImage();
+		return this;
 	}
 	
 	/***
@@ -518,20 +519,19 @@ public class Camera {
 			    }
 			    
 
-			    public Camera setMultithreading(int threads) 
+			    public Camera setMultithreading(int threads)
 			    {
-//			        if (threads < 0)
-//			            throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
-//			        if (threads != 0)
-//			            this.threadsCount = threads;
-//			        else {
-//			            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
-//			            this.threadsCount = cores <= 2 ? 1 : cores;
-//			        }
-			    	this.threadsCount = threads;
+			        if (threads < 0)
+			            throw new IllegalArgumentException("Multithreading parameter must be 0 or higher");
+			        if (threads != 0)
+			            this.threadsCount = threads;
+			        else {
+			            int cores = Runtime.getRuntime().availableProcessors() - SPARE_THREADS;
+			            this.threadsCount = cores <= 2 ? 1 : cores;
+			        }
 			        return this;
 			    }
-			    
+
 //			    
 //			    Pixel.initialize(nY, nX, printInterval);
 //			    while (threadsCount-- > 0) {
@@ -542,57 +542,43 @@ public class Camera {
 //			    }
 //			    Pixel.waitToFinish();
 
-			    private void ImageThreaded(long printInterval) 
+			    private void ImageThreaded()
 			    {
 			        final int nX = im.getNx();
 			        final int nY = im.getNy();
-			        
-			        Pixel.initialize(nY, nX, printInterval);
-				    while (threadsCount-- > 0) {
-				     new Thread(() -> {
-				     for (Pixel pixel = new Pixel(); pixel.nextPixel(); Pixel.pixelDone())
-				     castRay(nX, nY, pixel.col, pixel.row);
-				     }).start();
-				    }
-				    Pixel.waitToFinish();
-			        
-			        
-//			        final Pixel thePixel = new Pixel(nY, nX);
-//			        // Generate threads
-//			        Thread[] threads = new Thread[threadsCount];
-//			        for (int i = threadsCount - 1; i >= 0; --i) {
-//			            threads[i] = new Thread(() -> {
-//			                Pixel pixel = new Pixel();
-//			                while (thePixel.nextPixel(pixel))
-//			                    castRay(nX, nY, pixel.cCol, pixel.cRow);
-//			            });
-//			        }
-				    
-				    
-			        // Start threads
-			        for (Thread thread : threads)
-			            thread.start();
+			                      
+			    Pixel.initialize(nX, nY, 5);
 
-			        // Print percents on the console
-			        thePixel.pixelDone();
-
-			        // Ensure all threads have finished
-			        for (Thread thread : threads)
+			            Pixel p = new Pixel();
+			            p.print=print;
+			            
+			            
+			            
+			            
+			            
+			            //create thread foreach ray calculation
+			            Thread[] threads = new Thread[threadsCount];
+			            for (int i = threadsCount - 1; i >= 0; --i) {
+			                threads[i] = new Thread(() -> {
+			                    while (p.nextPixel()!=null) {
+			                     castRay(nX, nY, p.col(), p.row());
+			                        p.pixelDone();
+			                    }                
+			                });
+			                threads[i].start();                
+			            }
+			      
+			    for (Thread thread : threads)
 			            try {
 			                thread.join();
 			            } catch (Exception e) {
 			            }
-
-			        if (print)
+			    if (print)
 			            System.out.print("\r100%");
 			    }
-
+			    
 			    public Camera setDebugPrint() {
 			        print = true;
 			        return this;
-			    }
-
-
+			    } 
 }
-
-

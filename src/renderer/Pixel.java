@@ -16,12 +16,17 @@ record Pixel(int row, int col) {
    private static volatile long pixels = 0l;
    private static volatile int lastPrinted = 0;
 
-   private static boolean print = false;
+   public static boolean print = false;
    private static long printInterval = 100l;
    private static final String PRINT_FORMAT = "%5.1f%%\r";
    private static Object mutexNext = new Object();
    private static Object mutexPixels = new Object();
 
+   
+   public Pixel()
+   {
+      this(cRow,cCol);
+   }
    /** Initialize pixel data for multi-threading
     * @param maxRows  the amount of pixel rows
     * @param maxCols  the amount of pixel columns

@@ -1,4 +1,4 @@
-package unittests.special;
+package unittests;
 
 import static java.awt.Color.YELLOW;
 
@@ -26,7 +26,7 @@ public class TeapotTest {
 	private final Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, 1, 0)) //
 			.setVPDistance(1000).setVPSize(200, 200) //
 			.setImageWriter(imageWriter) //
-			.setMultithreading(3).setDebugPrint(0.1);
+			.setMultithreading(3).setDebugPrint();
 
 	private final Scene scene = new Scene("Test scene");
 
@@ -1567,7 +1567,7 @@ public class TeapotTest {
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 
-		camera.setRayTracer(new RayTracerBasic(scene)).renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
+		camera.setRayTracer(new RayTracerBasic(scene)).setUseAdaptive(true).renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
 	}
 
 }
