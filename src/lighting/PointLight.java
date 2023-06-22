@@ -56,6 +56,7 @@ public class PointLight extends Light implements LightSource {
 	 */
 	public Color getIntensity(Point p)
 	{
+		// IL = I0 /(kc+ kl *d + kq *d^2)
 		double d=position.distance(p);
 		double iL = kc + kl*d + kq*d*d;
 		return getIntensity().reduce(iL);// division
@@ -67,6 +68,7 @@ public class PointLight extends Light implements LightSource {
 	 */
 	public Vector getL(Point p)
 	{
+		//P-position
 		return p.subtract(position).normalize();
 	}
     

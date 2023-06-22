@@ -132,7 +132,7 @@ public class ReflectionRefractionTests {
                new Point(0, 0, 900), new Vector(1.5, 2.5, -3.5)) //
                .setKl(4E-5).setKq(2E-7));
 
-       ImageWriter imageWriter = new ImageWriter("allFeature", 2000, 2000);
+       ImageWriter imageWriter = new ImageWriter("allFeature_stage7", 2000, 2000);
        camera.setImageWriter(imageWriter) //
                .setRayTracer(new RayTracerBasic(scene)) //
                .renderImage() //

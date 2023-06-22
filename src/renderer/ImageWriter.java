@@ -21,12 +21,37 @@ public class ImageWriter {
 	private int nX;
 	private int nY;
 
+
 	private static final String FOLDER_PATH = System.getProperty("user.dir") + "/images";
 
 	private BufferedImage image;
 	private String imageName;
 	
 	private Logger logger = Logger.getLogger("ImageWriter");
+	
+	//****************************MiniProject1****************************
+	
+//	// number of rays from V.P. to the scene
+//	int amountRaysColomn=0;
+//	int amountRaysRow=0;
+//	
+//	/**
+//	 * 
+//	 * @returns the number of pixels colom which each pixel is divided
+//	 */
+//	public int getAmountRaysColomn() {
+//		return amountRaysColomn;
+//	}
+//	
+//	/**
+//	 * 
+//	 * @returns the number of pixels row which each pixel is divided
+//	 */
+//	public int getAmountRaysRow() {
+//		return amountRaysRow;
+//	}
+//	///***///
+//	
 
 	// ***************** Constructors ********************** //
 	/**

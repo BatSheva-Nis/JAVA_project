@@ -20,12 +20,12 @@ public class Material {
 	
 	/**
 	 * Attenuation coefficients of transparency
-	 * מקדם הנחתה עבור השתקפות
+	 * מקדם הנחתה עבור שקיפות 
 	 */
 	public Double3 kT = Double3.ZERO;
 	/**
 	 * Attenuation coefficients of reflection
-	 * מקדם הנחתה עבור שקיפות
+	 * מקדם הנחתה עבור השתקפות
 	 */
 	public Double3 kR =Double3.ZERO;
 	public int nShininess =0;

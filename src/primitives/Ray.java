@@ -44,13 +44,19 @@ public class Ray {
 		 this.p0 = p0;
 	     this.dir = dir.normalize();
 	 }
-	
-		public Ray(Point p0, Vector dir,Vector n) {
+		/** constructor Building a ray with moving a point
+	    *
+	    * @param p0 Original point
+	    * @param dir direction ray
+	    * @param n normal vector
+	    *On the line of the normal vector we will move the point of the head of the ray
+	    */	
+	public Ray(Point p0, Vector dir,Vector n) {
 			
-			Vector epsVector = n.scale(n.dotProduct(dir)>0? DELTA:-DELTA);
-			this.p0 = p0.add(epsVector);
-			this.dir = dir.normalize();
-		}	 
+		Vector epsVector = n.scale(n.dotProduct(dir)>0? DELTA:-DELTA);
+		this.p0 = p0.add(epsVector);
+		this.dir = dir.normalize();
+	}	 
 	 
 	 @Override
 	 public boolean equals(Object obj) {
@@ -95,7 +101,7 @@ public class Ray {
 	public GeoPoint findClosestGeoPoint(List<GeoPoint> lst)
 	{
 		//if the list is empty
-		if(lst.size() == 0 || lst == null)
+		if(lst == null || lst.size() == 0)
 				return null;
 		
 		GeoPoint minP = lst.get(0);

@@ -18,6 +18,9 @@ import scene.*;
  */
 public class Camera {
 	
+	//*******//
+	//Save the pixel's num in the ImageWriter class
+	//*******//
 	//Camera location point
 	private Point location;
 	//direction vectors
@@ -304,10 +307,10 @@ public class Camera {
 		 * actually colores the pixel!!
 		 * Calculating the color of the received pixel by creating a ray
 		 * and finding the closest object and its color
-		 * @param nX
-		 * @param nY
-		 * @param j
-		 * @param i
+		 * @param nX amount of columns
+		 * @param nY mount of rows
+		 * @param j j number column
+		 * @param i j number row
 		 */
 		 public void castMultiRay(int nX ,int nY,int j ,int i)
 		 {

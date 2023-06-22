@@ -109,7 +109,7 @@ public class RayTracerBasic extends RayTracerBase{
     
     private Color calcGlobalEffects(GeoPoint gp, Ray ray,int level, Double3 k) 
     {
-        Color color = Color.BLACK;
+        //Color color = Color.BLACK;
         Vector v = ray.getDir();
         Vector n = gp.geometry.getNormal(gp.point);
         Material material = gp.geometry.getMaterial();
@@ -133,6 +133,8 @@ public class RayTracerBasic extends RayTracerBase{
   * @return reflection ray
   */
     private Ray constructReflectedRay(GeoPoint gp,Vector v,Vector n){
+        //r = v - 2 * (v*n) * n
+        //r is the reflected ray
     	Vector r =calcRDirection(n, v,n.dotProduct(v)).normalize();
     	return new Ray(gp.point, r,n);
     }
@@ -151,6 +153,7 @@ public class RayTracerBasic extends RayTracerBase{
 
     
     private Vector calcRDirection(Vector n, Vector l,double nl) {
+    	//v - 2 * (v*n) * n
         return l.subtract(n.scale(nl*2));
     }
 
@@ -201,7 +204,8 @@ public class RayTracerBasic extends RayTracerBase{
 //			Vector lightDirection = l.scale(-1); // from point to light source
 //			//Vector DELTAVector = n.scale(nl < 0 ? DELTA : -DELTA);//We will move the ray a little
 //			Vector DELTAVector = normal.scale(normal.dotProduct(lightDirection) > 0 ? DELTA : -DELTA); 
-//			Point point = gp.point.add(DELTAVector);// We will check if this point is shading
+//			Point point = gp.point.add(DELTAVector);// up the point
+			//We will check if this point is shading
 //			Ray lightRay = new Ray(point, lightDirection);
 //			
 //			//finding points that are closer to the point than the light
@@ -214,7 +218,7 @@ public class RayTracerBasic extends RayTracerBase{
 //				return false;//shading
 //			
 //			double lightDistance = light.getDistance(gp.point);//calculates the Distance between light and point
-//	     for (GeoPoint geoPoint : intersections) {
+//	     	for (GeoPoint geoPoint : intersections) {
 //	     	//checks if the point is behind light
 //	     	if (geoPoint.point.distance(gp.point) <= lightDistance &&  geoPoint.geometry.getMaterial().kT.equals(new Double3(0.0)))
 //	     		return false;//the point should be shaded
