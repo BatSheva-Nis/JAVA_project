@@ -93,8 +93,8 @@ public class RayTracerBasic extends RayTracerBase{
     			Vector l = lightSource.getL(gp.point);//gets the direction the light is going
     			double nl = Util.alignZero(n.dotProduct(l));//nl = dotproduct between normal to the point and directional vector of the light
     			if (nl * nv > 0) //check that the light effect the point on the shape
-    			{ // sign(nl) == sing(nv)
-    				Double3 ktr = transparency(gp, lightSource, l, n); //intensity of shadow
+    			{ // sign(nl) == sing(nv) - if the camera and the light source are in the same side 
+    				Double3 ktr = transparency(gp, lightSource, l, n); //inten sity of shadow
     				if(!ktr.product(k).lowerThan(MIN_CALC_COLOR_K))
     				{
     					Color iL = lightSource.getIntensity(gp.point);
