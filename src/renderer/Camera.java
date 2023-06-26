@@ -53,7 +53,7 @@ public class Camera {
 	//****************************MiniProject2****************************
 		
 	//how many times to do recursive function in adaptive
-		private int maxAdaptiveLevel = 2;
+		private int maxAdaptiveLevel = 5;
 		//true if we use adaptive supersampling
 		private boolean useAdaptive = false;
 
@@ -259,10 +259,14 @@ public class Camera {
         }
     }
     private void castRay(int nX, int nY, int col, int row) {
-    	castRayOld(nX, nY,col,row);
-    	 im.writePixel(col, row, rtb.traceRay(constructRay(nX, nY, col, row)));
+    	Point p = middlePixel(nX, nY, col, row);
+    	 if (useAdaptive == true)
+    		 im.writePixel(col, row, adaptiveHelper(p,nY,nX));
+    	 else
+    		 im.writePixel(col, row, rtb.traceRay(constructRay(nX, nY, col, row)));
     	 pixelManager.pixelDone();
-    	 }
+    	}
+    
     
     
 //	/***

@@ -21,7 +21,7 @@ import scene.Scene;
  * @author Dan
  */
 public class TeapotTest {
-	private final ImageWriter imageWriter = new ImageWriter("teapot1", 800, 800);
+	private final ImageWriter imageWriter = new ImageWriter("teapotMini2", 800, 800);
 
 	private final Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 0, 1), new Vector(0, 1, 0)) //
 			.setVPDistance(1000).setVPSize(200, 200) //
@@ -1567,6 +1567,6 @@ public class TeapotTest {
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 
-		camera.setRayTracer(new RayTracerBasic(scene)).setUseAdaptive(true).renderImage().printGrid(50, new Color(YELLOW)).writeToImage();	}
+		camera.setRayTracer(new RayTracerBasic(scene)).setUseAdaptive(true).setMultithreading(3).renderImage().printGrid(50, new Color(YELLOW)).writeToImage();	}
 
 }
